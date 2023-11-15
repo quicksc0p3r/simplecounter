@@ -12,8 +12,8 @@ android {
         applicationId "org.quicksc0p3r.simplecounter"
         minSdk 21
         targetSdk 34
-        versionCode 8
-        versionName "1.0"
+        versionCode 9
+        versionName "1.0.1"
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
