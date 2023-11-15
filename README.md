@@ -1,6 +1,6 @@
 # Simple Counter
 
-<img alt="Banner" src="banner.png"></img>
+<img width="1300" alt="banner" src="https://github.com/quicksc0p3r/simplecounter/assets/80166934/76626535-3e0e-44d6-bfc4-a2bfd1791510" />
 
 Simple Counter is an app to help you keep track of things.
 # Features
