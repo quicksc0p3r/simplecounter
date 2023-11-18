@@ -1,0 +1,14 @@
+Features:
+
+* Material 3 UI implemented with Jetpack Compose
+* Set a default value for a counter to quickly reset to it
+* Allow or disallow negative values for a counter
+* Mark counters with labels and filter counters by label
+* Open counters in fullscreen view
+* Use volume keys to change counter value while in fullscreen mode
+* Option for compact counter cards
+
+Libraries used:
+
+* AndroidX (Compose, Lifecycle, Room, DataStore, AppCompat, Navigation)
+* Google Accompanist
