@@ -1,8 +1,16 @@
-# Simple Counter
+Simple Counter
+--------------
 
 <img width="1300" alt="banner" src="https://github.com/quicksc0p3r/simplecounter/assets/80166934/76626535-3e0e-44d6-bfc4-a2bfd1791510" />
 
 Simple Counter is an app to help you keep track of things.
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/org.quicksc0p3r.simplecounter/)
+
+Or download the latest APK from the [Releases Section](https://github.com/quicksc0p3r/simplecounter/releases/latest).
+
 # Features
 - Material 3 UI implemented with Jetpack Compose
 - Supports Android 5.0 and up
