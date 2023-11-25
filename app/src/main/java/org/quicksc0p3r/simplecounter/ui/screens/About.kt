@@ -46,6 +46,7 @@ import androidx.navigation.NavHostController
 import org.quicksc0p3r.simplecounter.BuildConfig
 import org.quicksc0p3r.simplecounter.NavRoutes
 import org.quicksc0p3r.simplecounter.R
+import org.quicksc0p3r.simplecounter.ui.dialogs.ContributorsDialog
 import org.quicksc0p3r.simplecounter.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,17 +100,7 @@ fun About(navController: NavHostController) {
         }
     ) {padding ->
         if (contributorsDialogOpen)
-            AlertDialog(
-                onDismissRequest = { contributorsDialogOpen = false },
-                confirmButton = {
-                    TextButton(
-                        onClick = { contributorsDialogOpen = false },
-                        content = { Text(stringResource(R.string.close)) }
-                    )
-                },
-                title = { Text(stringResource(R.string.contributors)) },
-                text = {}
-            )
+            ContributorsDialog { contributorsDialogOpen = false }
         Column(
             modifier = Modifier
                 .padding(padding)
