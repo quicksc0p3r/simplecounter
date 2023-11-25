@@ -7,9 +7,12 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/app/build/
+/app/release/
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+*.apk
