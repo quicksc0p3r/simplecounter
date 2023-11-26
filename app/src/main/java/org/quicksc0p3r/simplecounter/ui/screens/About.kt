@@ -16,6 +16,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
@@ -39,6 +40,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -68,6 +70,7 @@ fun About(navController: NavHostController) {
     val context = LocalContext.current
     val displayMetrics = context.resources.displayMetrics
     val uriHandler = LocalUriHandler.current
+    val clickableTextColor = LocalContentColor.current
 
     Scaffold(
         topBar = {
@@ -154,6 +157,7 @@ fun About(navController: NavHostController) {
                 }
                 ClickableText(
                     text = annotatedString,
+                    style = TextStyle.Default.copy(color = clickableTextColor),     // Workaround for clickable text not adjusting to dark theme
                     onClick = {offset ->
                         annotatedString.getStringAnnotations(tag = "contributors", start = offset, end = offset).firstOrNull()?.let {
                             contributorsDialogOpen = true
