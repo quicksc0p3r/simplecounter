@@ -1,0 +1,2 @@
+- Add Greek translation by [VasilisKos](https://github.com/VasilisKos)
+- Update contributors
