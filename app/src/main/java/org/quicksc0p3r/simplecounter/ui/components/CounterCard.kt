@@ -1,5 +1,6 @@
 package org.quicksc0p3r.simplecounter.ui.components
 
+import android.view.HapticFeedbackConstants
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -49,9 +50,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -97,12 +100,14 @@ fun CounterCard(
 ) {
     val context = LocalContext.current
     val metrics = context.resources.displayMetrics
+    val hapticFeedback = LocalHapticFeedback.current
     var allowAdd by rememberSaveable { mutableStateOf(counter.value < MAX_COUNTER_VALUE) }
     var allowSubtract by rememberSaveable { mutableStateOf((counter.allowNegativeValues && (counter.value > MIN_COUNTER_VALUE)) || (counter.value > 0)) }
     var counterMenuExpanded by remember { mutableStateOf(false) }
     val manager = SettingsManager(context)
     val counterCardStyleToken = manager.counterCardStyleSettingFlow.collectAsState(initial = "")
     val resetSnackbarTipWasShownToken = manager.resetSnackbarTipWasShownFlow.collectAsState(initial = false)
+    val hapticFeedbackOnTouchToken = manager.hapticFeedbackOnTouchFlow.collectAsState(initial = false)
     val scope = rememberCoroutineScope()
     val label = if (counter.labelId != null) getLabelFlowById(counter.labelId).collectAsState(initial = null) else null
     var counterCardWidth by remember { mutableIntStateOf(0) }
@@ -285,6 +290,8 @@ fun CounterCard(
                                 enabled = allowSubtract,
                                 onClick = {
                                     updateCounter(counter.value - 1)
+                                    if (hapticFeedbackOnTouchToken.value)
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                 }
                             ){
                                 Icon(imageVector = Icons.Rounded.Remove, contentDescription = stringResource(
@@ -321,6 +328,8 @@ fun CounterCard(
                                 enabled = allowAdd,
                                 onClick = {
                                     updateCounter(counter.value + 1)
+                                    if (hapticFeedbackOnTouchToken.value)
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                 }
                             ){
                                 Icon(imageVector = Icons.Rounded.Add, contentDescription = stringResource(
