@@ -19,6 +19,8 @@ class SettingsManager(context: Context) {
         val counterCardStyleSetting = intPreferencesKey("counterCardStyleSetting")
         val resetSnackbarTipWasShown = booleanPreferencesKey("resetSnackbarTipWasShown")
         val volumeKeysSnackbarTipWasShown = booleanPreferencesKey("volumeKeysSnackbarTipWasShown")
+        val hapticFeedbackOnTouch = booleanPreferencesKey("hapticFeedbackOnTouch")
+        val hapticFeedbackOnVolume = booleanPreferencesKey("hapticFeedbackOnVolume")
     }
 
     suspend fun storeColorSetting(newSetting: Int) {
@@ -41,6 +43,14 @@ class SettingsManager(context: Context) {
         settingsStore.edit { it[volumeKeysSnackbarTipWasShown] = newSetting }
     }
 
+    suspend fun storeHapticFeedbackOnTouchSetting(newSetting: Boolean) {
+        settingsStore.edit { it[hapticFeedbackOnTouch] = newSetting }
+    }
+
+    suspend fun storeHapticFeedbackOnVolumeSetting(newSetting: Boolean) {
+        settingsStore.edit { it[hapticFeedbackOnVolume] = newSetting }
+    }
+
     val colorSettingFlow = settingsStore.data.map {
         it[colorSetting] ?:
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
@@ -61,5 +71,11 @@ class SettingsManager(context: Context) {
     }
     val volumeKeysSnackbarTipWasShownFlow = settingsStore.data.map {
         it[volumeKeysSnackbarTipWasShown] ?: false
+    }
+    val hapticFeedbackOnTouchFlow = settingsStore.data.map {
+        it[hapticFeedbackOnTouch] ?: false
+    }
+    val hapticFeedbackOnVolumeFlow = settingsStore.data.map {
+        it[hapticFeedbackOnVolume] ?: false
     }
 }

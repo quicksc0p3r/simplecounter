@@ -52,6 +52,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -60,6 +61,7 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -97,6 +99,7 @@ fun FullscreenView(
         var allowAdd by rememberSaveable { mutableStateOf(counter.value < MAX_COUNTER_VALUE) }
         var allowSubtract by rememberSaveable { mutableStateOf((counter.allowNegativeValues && (counter.value > MIN_COUNTER_VALUE)) || (counter.value > 0)) }
         val context = LocalContext.current
+        val hapticFeedback = LocalHapticFeedback.current
         val metrics = context.resources.displayMetrics
         val dpWidth = metrics.widthPixels / metrics.density
         val referenceSize = (dpWidth - 30) / 2
@@ -106,6 +109,8 @@ fun FullscreenView(
         val snackbarHostState = remember { SnackbarHostState() }
         val manager = SettingsManager(context)
         val volumeKeysTipWasShownFlow = manager.volumeKeysSnackbarTipWasShownFlow.collectAsState(initial = false)
+        val hapticFeedbackOnTouchToken = manager.hapticFeedbackOnTouchFlow.collectAsState(initial = false)
+        val hapticFeedbackOnVolumeToken = manager.hapticFeedbackOnVolumeFlow.collectAsState(initial = false)
 
         fun checkIfAdditionIsAllowed() {
             allowAdd = counter.value < MAX_COUNTER_VALUE
@@ -150,12 +155,16 @@ fun FullscreenView(
                         Key.VolumeUp -> {
                             if (allowAdd && it.type == KeyEventType.KeyDown) {
                                 addToCounter()
+                                if (hapticFeedbackOnVolumeToken.value)
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             }
                             true
                         }
                         Key.VolumeDown -> {
                             if (allowSubtract && it.type == KeyEventType.KeyDown) {
                                 subtractFromCounter()
+                                if (hapticFeedbackOnVolumeToken.value)
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             }
                             true
                         }
@@ -293,6 +302,8 @@ fun FullscreenView(
                                         counter.allowNegativeValues
                                     )
                                 )
+                                if (hapticFeedbackOnTouchToken.value)
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             },
                             enabled = allowSubtract,
                             colors = CardDefaults.elevatedCardColors(
@@ -341,6 +352,8 @@ fun FullscreenView(
                                         counter.allowNegativeValues
                                     )
                                 )
+                                if (hapticFeedbackOnTouchToken.value)
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             },
                             enabled = allowAdd,
                             colors = CardDefaults.elevatedCardColors(

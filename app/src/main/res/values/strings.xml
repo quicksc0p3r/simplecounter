@@ -1,4 +1,6 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" >
     <string name="app_name" translatable="false">Simple Counter</string>
     <string name="create">Create</string>
     <string name="save">Save</string>
@@ -61,4 +63,12 @@
     <string name="import_counters_only">Imported counters: %1$d</string>
     <string name="import_labels_only">Imported labels: %1$d</string>
     <string name="import_both">Imported counters: %1$d, labels: %2$d</string>
+    <string name="haptic_feedback">Haptic feedback</string>
+    <string name="haptic_feedback_touch">On-screen buttons</string>
+    <string name="haptic_feedback_volume">Volume keys</string>
+    <string name="off">Off</string>
+    <string name="always">Always</string>
+    <string name="haptic_feedback_only_touch">Only for on-screen buttons</string>
+    <string name="haptic_feedback_only_volume">Only for volume keys</string>
+    <string name="haptic_feedback_warning">Make sure haptic feedback is enabled in your device\'s settings</string>
 </resources>

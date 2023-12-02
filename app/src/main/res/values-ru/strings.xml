@@ -60,4 +60,12 @@
     <string name="import_counters_only">Импортировано счётчиков: %1$d</string>
     <string name="import_labels_only">Импортировано меток: %1$d</string>
     <string name="import_both">Импортировано счётчиков: %1$d, меток: %2$d</string>
+    <string name="haptic_feedback">Виброотклик</string>
+    <string name="haptic_feedback_touch">Наэкранные кнопки</string>
+    <string name="haptic_feedback_volume">Клавиши громкости</string>
+    <string name="off">Выключено</string>
+    <string name="always">Всегда</string>
+    <string name="haptic_feedback_only_touch">Только для наэкранных кнопок</string>
+    <string name="haptic_feedback_only_volume">Только для клавиш громкости</string>
+    <string name="haptic_feedback_warning">Убедитесь, что виброотклик включен в настройках Вашего устройства</string>
 </resources>
