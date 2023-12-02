@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Simple Counter</string>
     <string name="create">Δημιουργία</string>
     <string name="save">Αποθήκευση</string>
     <string name="cancel">Άκυρο</string>
@@ -30,7 +29,7 @@
     <string name="compact_counter_cards">Συνεπτυγμένες κάρτες</string>
     <string name="license">Άδεια</string>
     <string name="translation_help">Βοήθεια στη μετάφραση</string>
-    <string name="credits">Δημιουργήθηκε από quicksc0p3r και |contributors|</string>
+    <string name="credits">Δημιουργήθηκε από quicksc0p3r και |συντελεστές|</string>
     <string name="contributors">Συντελεστές</string>
     <string name="edit">Επεξεργασία</string>
     <string name="reset">Επαναφορά</string>
@@ -61,4 +60,12 @@
     <string name="import_counters_only">Εισαχθέντες μετρητές: %1$d</string>
     <string name="import_labels_only">Εισαχθείσες ετικέτες: %1$d</string>
     <string name="import_both">Εισαχθέντες μετρητές: %1$d, ετικέτες: %2$d</string>
+    <string name="haptic_feedback">Δόνηση</string>
+    <string name="haptic_feedback_touch">Κουμπιά οθόνης</string>
+    <string name="haptic_feedback_volume">Κουμπιά έντασης</string>
+    <string name="off">Ανενεργή</string>
+    <string name="always">Πάντα</string>
+    <string name="haptic_feedback_only_touch">Μόνο για κουμπιά οθόνης</string>
+    <string name="haptic_feedback_only_volume">Μόνο για κουμπιά έντασης</string>
+    <string name="haptic_feedback_warning">Βεβαιωθείτε ότι η δόνηση είναι ενεργοποιημένη στις ρυθμίσεις της συσκευή σας</string>
 </resources>
