@@ -24,7 +24,7 @@ fun CheckboxItem(
                 onValueChange = changeValue,
                 role = Role.Checkbox
             )
-            .height(60.dp),
+            .height(42.dp),
         leadingContent = {
             Checkbox(
                 checked = isToggled,

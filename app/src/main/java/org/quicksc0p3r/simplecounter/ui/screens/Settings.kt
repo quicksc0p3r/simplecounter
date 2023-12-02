@@ -43,6 +43,7 @@ import org.quicksc0p3r.simplecounter.settings.LightDarkSetting
 import org.quicksc0p3r.simplecounter.settings.SettingsManager
 import org.quicksc0p3r.simplecounter.settings.colorSchemeSettingListFactory
 import org.quicksc0p3r.simplecounter.settings.lightDarkSettingListFactory
+import org.quicksc0p3r.simplecounter.ui.dialogs.HapticFeedbackSettingDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.SettingDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,8 +55,11 @@ fun Settings(navController: NavHostController) {
     val lightDarkToken = manager.lightDarkSettingFlow.collectAsState(initial = LightDarkSetting.LIGHT.ordinal)
     val colorSettingToken = manager.colorSettingFlow.collectAsState(initial = ColorSetting.PURPLE.ordinal)
     val counterCardStyleToken = manager.counterCardStyleSettingFlow.collectAsState(initial = CounterCardStyleSetting.NORMAL.ordinal)
+    val hapticFeedbackOnTouchToken = manager.hapticFeedbackOnTouchFlow.collectAsState(initial = false)
+    val hapticFeedbackOnVolumeToken = manager.hapticFeedbackOnVolumeFlow.collectAsState(initial = false)
     var lightDarkDialogOpen by remember { mutableStateOf(false) }
     var colorSettingDialogOpen by remember { mutableStateOf(false) }
+    var hapticFeedbackDialogOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { TopAppBar(
@@ -110,6 +114,13 @@ fun Settings(navController: NavHostController) {
                         }
                     }
                 )
+            if (hapticFeedbackDialogOpen)
+                HapticFeedbackSettingDialog(
+                    dismiss = { hapticFeedbackDialogOpen = false },
+                    manager = manager,
+                    currentTouchSetting = hapticFeedbackOnTouchToken.value,
+                    currentVolumeSetting = hapticFeedbackOnVolumeToken.value
+                )
 
             LazyColumn(modifier = Modifier.padding(padding)) {
                 item {
@@ -140,6 +151,19 @@ fun Settings(navController: NavHostController) {
                             }
                         )},
                         modifier = Modifier.clickable { colorSettingDialogOpen = true }
+                    )
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.haptic_feedback)) },
+                        supportingContent = { Text(
+                            when (hapticFeedbackOnTouchToken.value to hapticFeedbackOnVolumeToken.value) {
+                                false to false -> stringResource(R.string.off)
+                                false to true -> stringResource(R.string.haptic_feedback_only_volume)
+                                true to false -> stringResource(R.string.haptic_feedback_only_touch)
+                                true to true -> stringResource(R.string.always)
+                                else -> ""
+                            }
+                        )},
+                        modifier = Modifier.clickable { hapticFeedbackDialogOpen = true }
                     )
                     ListItem(
                         headlineContent = { Text(stringResource(R.string.compact_counter_cards)) },
