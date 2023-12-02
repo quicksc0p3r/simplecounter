@@ -18,30 +18,30 @@ import org.quicksc0p3r.simplecounter.settings.SettingsManager
 fun SimpleCounterTheme(content: @Composable () -> Unit) {
     val context = LocalContext.current
     val manager = SettingsManager(context)
-    val lightDarkToken by manager.lightDarkSettingFlow.collectAsState(initial = LightDarkSetting.SYSTEM.value)
+    val lightDarkToken by manager.lightDarkSettingFlow.collectAsState(initial = LightDarkSetting.SYSTEM.ordinal)
     val colorSettingToken by manager.colorSettingFlow.collectAsState(initial = "")
-    val isDarkTheme = ((lightDarkToken == LightDarkSetting.SYSTEM.value) && isSystemInDarkTheme()) || (lightDarkToken == LightDarkSetting.DARK.value)
+    val isDarkTheme = ((lightDarkToken == LightDarkSetting.SYSTEM.ordinal) && isSystemInDarkTheme()) || (lightDarkToken == LightDarkSetting.DARK.ordinal)
     val systemUIController = rememberSystemUiController()
     val colorScheme = if (isDarkTheme)
         when (colorSettingToken) {
-            ColorSetting.SYSTEM.value -> dynamicDarkColorScheme(context)
-            ColorSetting.RED.value -> RedDarkColorScheme
-            ColorSetting.ORANGE.value -> OrangeDarkColorScheme
-            ColorSetting.YELLOW.value -> YellowDarkColorScheme
-            ColorSetting.GREEN.value -> GreenDarkColorScheme
-            ColorSetting.BLUE.value -> BlueDarkColorScheme
-            ColorSetting.PURPLE.value -> PurpleDarkColorScheme
+            ColorSetting.SYSTEM.ordinal -> dynamicDarkColorScheme(context)
+            ColorSetting.RED.ordinal -> RedDarkColorScheme
+            ColorSetting.ORANGE.ordinal -> OrangeDarkColorScheme
+            ColorSetting.YELLOW.ordinal -> YellowDarkColorScheme
+            ColorSetting.GREEN.ordinal -> GreenDarkColorScheme
+            ColorSetting.BLUE.ordinal -> BlueDarkColorScheme
+            ColorSetting.PURPLE.ordinal -> PurpleDarkColorScheme
             else -> PurpleDarkColorScheme
         }
     else
         when (colorSettingToken) {
-            ColorSetting.SYSTEM.value -> dynamicLightColorScheme(context)
-            ColorSetting.RED.value -> RedLightColorScheme
-            ColorSetting.ORANGE.value -> OrangeLightColorScheme
-            ColorSetting.YELLOW.value -> YellowLightColorScheme
-            ColorSetting.GREEN.value -> GreenLightColorScheme
-            ColorSetting.BLUE.value -> BlueLightColorScheme
-            ColorSetting.PURPLE.value -> PurpleLightColorScheme
+            ColorSetting.SYSTEM.ordinal -> dynamicLightColorScheme(context)
+            ColorSetting.RED.ordinal -> RedLightColorScheme
+            ColorSetting.ORANGE.ordinal -> OrangeLightColorScheme
+            ColorSetting.YELLOW.ordinal -> YellowLightColorScheme
+            ColorSetting.GREEN.ordinal -> GreenLightColorScheme
+            ColorSetting.BLUE.ordinal -> BlueLightColorScheme
+            ColorSetting.PURPLE.ordinal -> PurpleLightColorScheme
             else -> PurpleLightColorScheme
         }
     SideEffect {

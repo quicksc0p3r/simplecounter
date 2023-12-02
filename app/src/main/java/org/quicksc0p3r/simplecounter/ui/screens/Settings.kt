@@ -51,9 +51,9 @@ fun Settings(navController: NavHostController) {
     val context = LocalContext.current
     val manager = SettingsManager(context)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val lightDarkToken = manager.lightDarkSettingFlow.collectAsState(initial = LightDarkSetting.LIGHT.value)
-    val colorSettingToken = manager.colorSettingFlow.collectAsState(initial = ColorSetting.PURPLE.value)
-    val counterCardStyleToken = manager.counterCardStyleSettingFlow.collectAsState(initial = CounterCardStyleSetting.NORMAL.value)
+    val lightDarkToken = manager.lightDarkSettingFlow.collectAsState(initial = LightDarkSetting.LIGHT.ordinal)
+    val colorSettingToken = manager.colorSettingFlow.collectAsState(initial = ColorSetting.PURPLE.ordinal)
+    val counterCardStyleToken = manager.counterCardStyleSettingFlow.collectAsState(initial = CounterCardStyleSetting.NORMAL.ordinal)
     var lightDarkDialogOpen by remember { mutableStateOf(false) }
     var colorSettingDialogOpen by remember { mutableStateOf(false) }
 
@@ -117,9 +117,9 @@ fun Settings(navController: NavHostController) {
                         headlineContent = { Text(stringResource(R.string.light_dark_theme)) },
                         supportingContent = { Text(
                             when (lightDarkToken.value) {
-                                LightDarkSetting.SYSTEM.value -> stringResource(R.string.system_default)
-                                LightDarkSetting.LIGHT.value -> stringResource(R.string.light_theme)
-                                LightDarkSetting.DARK.value -> stringResource(R.string.dark_theme)
+                                LightDarkSetting.SYSTEM.ordinal -> stringResource(R.string.system_default)
+                                LightDarkSetting.LIGHT.ordinal -> stringResource(R.string.light_theme)
+                                LightDarkSetting.DARK.ordinal -> stringResource(R.string.dark_theme)
                                 else -> ""
                             }
                         )},
@@ -129,13 +129,13 @@ fun Settings(navController: NavHostController) {
                         headlineContent = { Text(stringResource(R.string.color_scheme)) },
                         supportingContent = { Text(
                             when (colorSettingToken.value) {
-                                ColorSetting.SYSTEM.value -> stringResource(R.string.system_default)
-                                ColorSetting.RED.value -> stringResource(R.string.red_scheme)
-                                ColorSetting.ORANGE.value -> stringResource(R.string.orange_scheme)
-                                ColorSetting.YELLOW.value -> stringResource(R.string.yellow_scheme)
-                                ColorSetting.GREEN.value -> stringResource(R.string.green_scheme)
-                                ColorSetting.BLUE.value -> stringResource(R.string.blue_scheme)
-                                ColorSetting.PURPLE.value -> stringResource(R.string.purple_scheme)
+                                ColorSetting.SYSTEM.ordinal -> stringResource(R.string.system_default)
+                                ColorSetting.RED.ordinal -> stringResource(R.string.red_scheme)
+                                ColorSetting.ORANGE.ordinal -> stringResource(R.string.orange_scheme)
+                                ColorSetting.YELLOW.ordinal -> stringResource(R.string.yellow_scheme)
+                                ColorSetting.GREEN.ordinal -> stringResource(R.string.green_scheme)
+                                ColorSetting.BLUE.ordinal -> stringResource(R.string.blue_scheme)
+                                ColorSetting.PURPLE.ordinal -> stringResource(R.string.purple_scheme)
                                 else -> ""
                             }
                         )},
@@ -145,20 +145,20 @@ fun Settings(navController: NavHostController) {
                         headlineContent = { Text(stringResource(R.string.compact_counter_cards)) },
                         trailingContent = {
                             Checkbox(
-                                checked = counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.value,
+                                checked = counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.ordinal,
                                 onCheckedChange = null
                             )
                         },
                         modifier = Modifier.toggleable(
-                            value = counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.value,
+                            value = counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.ordinal,
                             onValueChange = {
-                                if (counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.value)
+                                if (counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.ordinal)
                                     CoroutineScope(Dispatchers.IO).launch {
-                                        manager.storeCounterCardStyleSetting(CounterCardStyleSetting.NORMAL.value)
+                                        manager.storeCounterCardStyleSetting(CounterCardStyleSetting.NORMAL.ordinal)
                                     }
                                 else
                                     CoroutineScope(Dispatchers.IO).launch {
-                                        manager.storeCounterCardStyleSetting(CounterCardStyleSetting.COMPACT.value)
+                                        manager.storeCounterCardStyleSetting(CounterCardStyleSetting.COMPACT.ordinal)
                                     }
                             },
                             role = Role.Checkbox

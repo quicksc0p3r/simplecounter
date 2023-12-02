@@ -10,17 +10,17 @@ fun lightDarkSettingListFactory(): List<Setting> {
     return listOf(
         Setting(
             name = stringResource(R.string.system_default),
-            value = LightDarkSetting.SYSTEM.value,
+            value = LightDarkSetting.SYSTEM.ordinal,
             minSDK = Build.VERSION_CODES.Q,
             minVer = "10"
         ),
         Setting(
             name = stringResource(R.string.light_theme),
-            value = LightDarkSetting.LIGHT.value
+            value = LightDarkSetting.LIGHT.ordinal
         ),
         Setting(
             name = stringResource(R.string.dark_theme),
-            value = LightDarkSetting.DARK.value
+            value = LightDarkSetting.DARK.ordinal
         )
     )
 }
@@ -30,33 +30,33 @@ fun colorSchemeSettingListFactory(): List<Setting> {
     return listOf(
         Setting(
             name = stringResource(R.string.system_default),
-            value = ColorSetting.SYSTEM.value,
+            value = ColorSetting.SYSTEM.ordinal,
             minSDK = Build.VERSION_CODES.S,
             minVer = "12"
         ),
         Setting(
             name = stringResource(R.string.red_scheme),
-            value = ColorSetting.RED.value
+            value = ColorSetting.RED.ordinal
         ),
         Setting(
             name = stringResource(R.string.orange_scheme),
-            value = ColorSetting.ORANGE.value
+            value = ColorSetting.ORANGE.ordinal
         ),
         Setting(
             name = stringResource(R.string.yellow_scheme),
-            value = ColorSetting.YELLOW.value
+            value = ColorSetting.YELLOW.ordinal
         ),
         Setting(
             name = stringResource(R.string.green_scheme),
-            value = ColorSetting.GREEN.value
+            value = ColorSetting.GREEN.ordinal
         ),
         Setting(
             name = stringResource(R.string.blue_scheme),
-            value = ColorSetting.BLUE.value
+            value = ColorSetting.BLUE.ordinal
         ),
         Setting(
             name = stringResource(R.string.purple_scheme),
-            value = ColorSetting.PURPLE.value
+            value = ColorSetting.PURPLE.ordinal
         )
     )
 }

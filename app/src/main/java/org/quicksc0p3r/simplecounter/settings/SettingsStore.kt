@@ -44,17 +44,17 @@ class SettingsManager(context: Context) {
     val colorSettingFlow = settingsStore.data.map {
         it[colorSetting] ?:
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            ColorSetting.SYSTEM.value
-        else ColorSetting.PURPLE.value
+            ColorSetting.SYSTEM.ordinal
+        else ColorSetting.PURPLE.ordinal
     }
     val lightDarkSettingFlow = settingsStore.data.map {
         it[lightDarkSetting] ?:
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            LightDarkSetting.SYSTEM.value
-        else LightDarkSetting.LIGHT.value
+            LightDarkSetting.SYSTEM.ordinal
+        else LightDarkSetting.LIGHT.ordinal
     }
     val counterCardStyleSettingFlow = settingsStore.data.map {
-        it[counterCardStyleSetting] ?: CounterCardStyleSetting.NORMAL.value
+        it[counterCardStyleSetting] ?: CounterCardStyleSetting.NORMAL.ordinal
     }
     val resetSnackbarTipWasShownFlow = settingsStore.data.map {
         it[resetSnackbarTipWasShown] ?: false

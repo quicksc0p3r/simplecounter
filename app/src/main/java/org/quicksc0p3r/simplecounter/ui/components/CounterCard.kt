@@ -119,7 +119,7 @@ fun CounterCard(
         ElevatedCard(
             modifier = Modifier
                 .padding(bottom = 6.dp, top = 6.dp, start = 8.dp, end = 8.dp)
-                .height(if (counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.value) 125.dp else 200.dp)
+                .height(if (counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.ordinal) 125.dp else 200.dp)
                 .onGloballyPositioned { coordinates ->
                     counterCardWidth = coordinates.size.width
                 },
