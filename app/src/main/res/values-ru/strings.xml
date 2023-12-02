@@ -67,4 +67,5 @@
     <string name="always">Всегда</string>
     <string name="haptic_feedback_only_touch">Только для наэкранных кнопок</string>
     <string name="haptic_feedback_only_volume">Только для клавиш громкости</string>
+    <string name="haptic_feedback_warning">Убедитесь, что виброотклик включен в настройках Вашего устройства</string>
 </resources>

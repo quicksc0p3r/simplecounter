@@ -3,13 +3,17 @@
 package org.quicksc0p3r.simplecounter.ui.dialogs
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,6 +63,11 @@ fun HapticFeedbackSettingDialog(
                     name = stringResource(R.string.haptic_feedback_volume),
                     isToggled = hapticFeedbackOnVolume,
                     changeValue = { hapticFeedbackOnVolume = it }
+                )
+                Text(
+                    text = stringResource(R.string.haptic_feedback_warning),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 5.dp)
                 )
             }
         }
