@@ -2,14 +2,6 @@
 
 package org.quicksc0p3r.simplecounter.ui.screens
 
-<<<<<<< Updated upstream
-=======
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
-import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
-import androidx.compose.foundation.ExperimentalFoundationApi
->>>>>>> Stashed changes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -85,7 +77,6 @@ import org.quicksc0p3r.simplecounter.ui.dialogs.DeleteDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.LabelCreationDialog
 import org.quicksc0p3r.simplecounter.ui.theme.Typography
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainComposable(
     countersViewModel: CountersViewModel,
@@ -173,7 +164,6 @@ fun MainComposable(
                                 modifier = Modifier
                                     .padding(NavigationDrawerItemDefaults.ItemPadding)
                                     .width(175.dp)
-                                    .animateItemPlacement()
                             )
                             TooltipBox(
                                 positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
@@ -293,7 +283,6 @@ fun MainComposable(
                 ) {
                     items(countersFiltered, key = { it.id }) { counter ->
                         CounterCard(
-                            modifier = Modifier.animateItemPlacement(),
                             counter = counter,
                             snackbarHostState = snackbarHostState,
                             updateCounter = {value ->
