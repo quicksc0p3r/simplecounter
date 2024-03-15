@@ -2,6 +2,10 @@
 
 package org.quicksc0p3r.simplecounter.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
+import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +40,6 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -46,6 +49,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -61,8 +65,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.quicksc0p3r.simplecounter.NavRoutes
 import org.quicksc0p3r.simplecounter.R
@@ -70,6 +75,8 @@ import org.quicksc0p3r.simplecounter.db.Counter
 import org.quicksc0p3r.simplecounter.db.CountersViewModel
 import org.quicksc0p3r.simplecounter.db.Label
 import org.quicksc0p3r.simplecounter.db.LabelsViewModel
+import org.quicksc0p3r.simplecounter.json.GenerateJson
+import org.quicksc0p3r.simplecounter.json.ParseJson
 import org.quicksc0p3r.simplecounter.ui.components.CounterCard
 import org.quicksc0p3r.simplecounter.ui.components.SearchTopAppBar
 import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditDialog
@@ -96,7 +103,49 @@ fun MainComposable(
     val snackbarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var import by remember { mutableStateOf(false) }
+    val contentResolver = context.contentResolver
+    val createDocumentLauncher = rememberLauncherForActivityResult(CreateDocument("application/json")) { uri ->
+        uri?.let {
+            contentResolver.openOutputStream(it)?.use { ostream ->
+                ostream.write(GenerateJson(counters, labels))
+            }
+        }
+    }
+    val openDocumentLauncher = rememberLauncherForActivityResult(OpenDocument()) { uri ->
+        uri?.let {
+            contentResolver.openInputStream(it)?.use { istream ->
+                val countersAndLabels = ParseJson(istream.readBytes())
+                var labelJsonIdToRealId: MutableMap<Int, Int> = mutableMapOf()
+                countersAndLabels?.let { cl ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        cl.labels.forEach { label ->
+                            labelJsonIdToRealId[label.id] = labelsViewModel.insertLabelWithIdReturn(
+                                Label(
+                                    id = 0,
+                                    name = label.name,
+                                    color = label.color
+                                )
+                            )
+                        }
+                        println(labelJsonIdToRealId)
+                        cl.counters.forEach { counter ->
+                            println(labelJsonIdToRealId[counter.labelId])
+                            countersViewModel.insertCounter(
+                                Counter(
+                                    id = 0,
+                                    name = counter.name,
+                                    value = counter.value,
+                                    defaultValue = counter.defaultValue,
+                                    allowNegativeValues = counter.allowNegativeValues,
+                                    labelId = labelJsonIdToRealId[counter.labelId]
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
     val nullableLabel: Label? = null
     var currentLabelFilter by remember { mutableStateOf(nullableLabel) }
     var searchQuery by remember { mutableStateOf("") }
@@ -210,8 +259,12 @@ fun MainComposable(
                         searchQuery = query
                     },
                     clearSearchQuery = {searchQuery = ""},
-                    exportData = {},
-                    importData = {}
+                    exportData = {
+                        createDocumentLauncher.launch("SimpleCounterData.json")
+                    },
+                    importData = {
+                        openDocumentLauncher.launch(arrayOf("application/json"))
+                    }
                 )
             },
             snackbarHost = { SnackbarHost(snackbarHostState) },
