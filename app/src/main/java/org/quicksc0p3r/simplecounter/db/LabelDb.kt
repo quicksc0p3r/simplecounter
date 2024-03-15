@@ -74,12 +74,8 @@ class LabelRepo(private val labelDao: LabelDao) {
         }
     }
 
-    fun insertLabelWithIdReturn(newLabel: Label): Int {
-        var id = 0
-        coroutineScope.launch(Dispatchers.IO) {
-            id = labelDao.getIdFromRowId(labelDao.insertWithIdReturn(newLabel))
-        }
-        return id
+    suspend fun insertLabelWithIdReturn(newLabel: Label): Int {
+        return labelDao.getIdFromRowId(labelDao.insertWithIdReturn(newLabel))
     }
 
     fun deleteLabel(labelToDelete: Label) {
@@ -110,7 +106,7 @@ class LabelsViewModel(application: Application): ViewModel() {
         repo.insertLabel(label)
     }
 
-    fun insertLabelWithIdReturn(label: Label): Int {
+    suspend fun insertLabelWithIdReturn(label: Label): Int {
         return repo.insertLabelWithIdReturn(label)
     }
 

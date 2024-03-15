@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.FileDownload
+import androidx.compose.material.icons.outlined.FileUpload
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.MoreVert
@@ -133,7 +135,6 @@ fun SearchTopAppBar(
                                 onClick = {topBarMenuExpanded = false; navController.navigate(
                                     NavRoutes.Settings.route) }
                             )
-                            /* TODO
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.export_data)) },
                                 leadingIcon = {
@@ -159,7 +160,7 @@ fun SearchTopAppBar(
                                     topBarMenuExpanded = false
                                     importData()
                                 }
-                            )*/
+                            )
                             DropdownMenuItem(
                                 text = { Text(text = stringResource(R.string.about)) },
                                 leadingIcon = {

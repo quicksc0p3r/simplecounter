@@ -60,6 +60,8 @@
     <string name="import_counters_only">Импортировано счётчиков: %1$d</string>
     <string name="import_labels_only">Импортировано меток: %1$d</string>
     <string name="import_both">Импортировано счётчиков: %1$d, меток: %2$d</string>
+    <string name="importing">Импорт…</string>
+    <string name="exporting">Экспорт…</string>
     <string name="haptic_feedback">Виброотклик</string>
     <string name="haptic_feedback_touch">Наэкранные кнопки</string>
     <string name="haptic_feedback_volume">Клавиши громкости</string>

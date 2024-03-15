@@ -2,6 +2,10 @@
 
 package org.quicksc0p3r.simplecounter.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
+import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +50,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -61,8 +66,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getString
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.quicksc0p3r.simplecounter.NavRoutes
 import org.quicksc0p3r.simplecounter.R
@@ -70,11 +77,14 @@ import org.quicksc0p3r.simplecounter.db.Counter
 import org.quicksc0p3r.simplecounter.db.CountersViewModel
 import org.quicksc0p3r.simplecounter.db.Label
 import org.quicksc0p3r.simplecounter.db.LabelsViewModel
+import org.quicksc0p3r.simplecounter.json.GenerateJson
+import org.quicksc0p3r.simplecounter.json.ParseJson
 import org.quicksc0p3r.simplecounter.ui.components.CounterCard
 import org.quicksc0p3r.simplecounter.ui.components.SearchTopAppBar
 import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.DeleteDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.LabelCreationDialog
+import org.quicksc0p3r.simplecounter.ui.dialogs.SpinnerDialog
 import org.quicksc0p3r.simplecounter.ui.theme.Typography
 
 @Composable
@@ -90,13 +100,92 @@ fun MainComposable(
     var counterEditDialogOpen by remember { mutableStateOf(false) }
     var counterDeleteDialogOpen by remember { mutableStateOf(false) }
     var labelCreationDialogOpen by remember { mutableStateOf(false) }
+    var importingDialogOpen by remember { mutableStateOf(false) }
+    var exportingDialogOpen by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val counters by countersViewModel.allCounters.observeAsState(listOf())
     val labels by labelsViewModel.allLabels.observeAsState(listOf())
     val snackbarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var import by remember { mutableStateOf(false) }
+    val contentResolver = context.contentResolver
+    val createDocumentLauncher = rememberLauncherForActivityResult(CreateDocument("application/json")) { uri ->
+        uri?.let {
+            exportingDialogOpen = true
+            contentResolver.openOutputStream(it)?.use { ostream ->
+                ostream.write(GenerateJson(counters, labels))
+            }
+            exportingDialogOpen = false
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = context.getString(R.string.export_success),
+                    duration = SnackbarDuration.Short
+                )
+            }
+        }
+    }
+    val openDocumentLauncher = rememberLauncherForActivityResult(OpenDocument()) { uri ->
+        uri?.let {
+            try {
+                contentResolver.openInputStream(it)?.use { istream ->
+                    val countersAndLabels = ParseJson(istream.readBytes())
+                    var labelJsonIdToRealId: MutableMap<Int, Int> = mutableMapOf()
+                    var countersImported = 0
+                    var labelsImported = 0
+                    countersAndLabels?.let { cl ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            importingDialogOpen = true
+                            cl.labels.forEach { label ->
+                                labelJsonIdToRealId[label.id] = labelsViewModel.insertLabelWithIdReturn(
+                                    Label(
+                                        id = 0,
+                                        name = label.name,
+                                        color = label.color
+                                    )
+                                )
+                                ++labelsImported
+                            }
+                            cl.counters.forEach { counter ->
+                                countersViewModel.insertCounter(
+                                    Counter(
+                                        id = 0,
+                                        name = counter.name,
+                                        value = counter.value,
+                                        defaultValue = counter.defaultValue,
+                                        allowNegativeValues = counter.allowNegativeValues,
+                                        labelId = labelJsonIdToRealId[counter.labelId]
+                                    )
+                                )
+                                ++countersImported
+                            }
+                        }.invokeOnCompletion {
+                            importingDialogOpen = false
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = when ((countersImported > 0) to (labelsImported > 0)) {
+                                        true to true -> context.getString(R.string.import_both, countersImported, labelsImported)
+                                        true to false -> context.getString(R.string.import_counters_only, countersImported)
+                                        false to true -> context.getString(R.string.import_labels_only, labelsImported)
+                                        false to false -> context.getString(R.string.import_nothing)
+                                        else -> ""
+                                    },
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
+                        }
+                    }
+                }
+            } catch(e: Exception) {
+                System.err.println("JSON import exception: ${e.message}")
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = context.getString(R.string.error),
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
+        }
+    }
     val nullableLabel: Label? = null
     var currentLabelFilter by remember { mutableStateOf(nullableLabel) }
     var searchQuery by remember { mutableStateOf("") }
@@ -210,8 +299,12 @@ fun MainComposable(
                         searchQuery = query
                     },
                     clearSearchQuery = {searchQuery = ""},
-                    exportData = {},
-                    importData = {}
+                    exportData = {
+                        createDocumentLauncher.launch("SimpleCounterData.json")
+                    },
+                    importData = {
+                        openDocumentLauncher.launch(arrayOf("application/json"))
+                    }
                 )
             },
             snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -257,6 +350,8 @@ fun MainComposable(
             if (labelCreationDialogOpen) LabelCreationDialog(dismiss = {
                 labelCreationDialogOpen = false
             }, labelsViewModel)
+            if (importingDialogOpen) SpinnerDialog(stringResource(R.string.importing))
+            if (exportingDialogOpen) SpinnerDialog(stringResource(R.string.exporting))
 
             if (countersFiltered.isEmpty()) {
                 Column(
