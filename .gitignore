@@ -18,3 +18,4 @@ local.properties
 *.apk
 /.idea
 /.idea
+.idea/deploymentTargetDropDown.xml
