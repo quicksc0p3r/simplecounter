@@ -2,14 +2,11 @@
 
 package org.quicksc0p3r.simplecounter.ui.screens
 
-<<<<<<< Updated upstream
-=======
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.compose.foundation.ExperimentalFoundationApi
->>>>>>> Stashed changes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
