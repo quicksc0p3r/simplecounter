@@ -20,9 +20,11 @@ Or download the latest APK from the [Releases Section](https://github.com/quicks
 - Open counters in fullscreen view
 - Use volume keys to change counter value while in fullscreen mode
 - Option for compact counter cards
+- Make backups of your counters and labels in JSON format and restore them later
 # Libraries used
 - [AndroidX](https://github.com/androidx/androidx) (Compose, Lifecycle, Room, DataStore, AppCompat, Navigation)
 - [Google Accompanist](https://github.com/google/accompanist)
+- [Moshi](https://github.com/square/moshi)
 # License
    Copyright 2023 quicksc0p3r
 
