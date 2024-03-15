@@ -126,52 +126,62 @@ fun MainComposable(
     }
     val openDocumentLauncher = rememberLauncherForActivityResult(OpenDocument()) { uri ->
         uri?.let {
-            contentResolver.openInputStream(it)?.use { istream ->
-                val countersAndLabels = ParseJson(istream.readBytes())
-                var labelJsonIdToRealId: MutableMap<Int, Int> = mutableMapOf()
-                var countersImported = 0
-                var labelsImported = 0
-                countersAndLabels?.let { cl ->
-                    CoroutineScope(Dispatchers.IO).launch {
-                        importingDialogOpen = true
-                        cl.labels.forEach { label ->
-                            labelJsonIdToRealId[label.id] = labelsViewModel.insertLabelWithIdReturn(
-                                Label(
-                                    id = 0,
-                                    name = label.name,
-                                    color = label.color
+            try {
+                contentResolver.openInputStream(it)?.use { istream ->
+                    val countersAndLabels = ParseJson(istream.readBytes())
+                    var labelJsonIdToRealId: MutableMap<Int, Int> = mutableMapOf()
+                    var countersImported = 0
+                    var labelsImported = 0
+                    countersAndLabels?.let { cl ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            importingDialogOpen = true
+                            cl.labels.forEach { label ->
+                                labelJsonIdToRealId[label.id] = labelsViewModel.insertLabelWithIdReturn(
+                                    Label(
+                                        id = 0,
+                                        name = label.name,
+                                        color = label.color
+                                    )
                                 )
-                            )
-                            ++labelsImported
-                        }
-                        cl.counters.forEach { counter ->
-                            countersViewModel.insertCounter(
-                                Counter(
-                                    id = 0,
-                                    name = counter.name,
-                                    value = counter.value,
-                                    defaultValue = counter.defaultValue,
-                                    allowNegativeValues = counter.allowNegativeValues,
-                                    labelId = labelJsonIdToRealId[counter.labelId]
+                                ++labelsImported
+                            }
+                            cl.counters.forEach { counter ->
+                                countersViewModel.insertCounter(
+                                    Counter(
+                                        id = 0,
+                                        name = counter.name,
+                                        value = counter.value,
+                                        defaultValue = counter.defaultValue,
+                                        allowNegativeValues = counter.allowNegativeValues,
+                                        labelId = labelJsonIdToRealId[counter.labelId]
+                                    )
                                 )
-                            )
-                            ++countersImported
-                        }
-                    }.invokeOnCompletion {
-                        importingDialogOpen = false
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = when ((countersImported > 0) to (labelsImported > 0)) {
-                                    true to true -> context.getString(R.string.import_both, countersImported, labelsImported)
-                                    true to false -> context.getString(R.string.import_counters_only, countersImported)
-                                    false to true -> context.getString(R.string.import_labels_only, labelsImported)
-                                    false to false -> context.getString(R.string.import_nothing)
-                                    else -> ""
-                                },
-                                duration = SnackbarDuration.Short
-                            )
+                                ++countersImported
+                            }
+                        }.invokeOnCompletion {
+                            importingDialogOpen = false
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = when ((countersImported > 0) to (labelsImported > 0)) {
+                                        true to true -> context.getString(R.string.import_both, countersImported, labelsImported)
+                                        true to false -> context.getString(R.string.import_counters_only, countersImported)
+                                        false to true -> context.getString(R.string.import_labels_only, labelsImported)
+                                        false to false -> context.getString(R.string.import_nothing)
+                                        else -> ""
+                                    },
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
                         }
                     }
+                }
+            } catch(e: Exception) {
+                System.err.println("JSON import exception: ${e.message}")
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = context.getString(R.string.error),
+                        duration = SnackbarDuration.Short
+                    )
                 }
             }
         }
