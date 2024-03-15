@@ -40,6 +40,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -65,6 +66,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -82,6 +84,7 @@ import org.quicksc0p3r.simplecounter.ui.components.SearchTopAppBar
 import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.DeleteDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.LabelCreationDialog
+import org.quicksc0p3r.simplecounter.ui.dialogs.SpinnerDialog
 import org.quicksc0p3r.simplecounter.ui.theme.Typography
 
 @Composable
@@ -97,6 +100,8 @@ fun MainComposable(
     var counterEditDialogOpen by remember { mutableStateOf(false) }
     var counterDeleteDialogOpen by remember { mutableStateOf(false) }
     var labelCreationDialogOpen by remember { mutableStateOf(false) }
+    var importingDialogOpen by remember { mutableStateOf(false) }
+    var exportingDialogOpen by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val counters by countersViewModel.allCounters.observeAsState(listOf())
     val labels by labelsViewModel.allLabels.observeAsState(listOf())
@@ -106,8 +111,16 @@ fun MainComposable(
     val contentResolver = context.contentResolver
     val createDocumentLauncher = rememberLauncherForActivityResult(CreateDocument("application/json")) { uri ->
         uri?.let {
+            exportingDialogOpen = true
             contentResolver.openOutputStream(it)?.use { ostream ->
                 ostream.write(GenerateJson(counters, labels))
+            }
+            exportingDialogOpen = false
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = context.getString(R.string.export_success),
+                    duration = SnackbarDuration.Short
+                )
             }
         }
     }
@@ -116,8 +129,11 @@ fun MainComposable(
             contentResolver.openInputStream(it)?.use { istream ->
                 val countersAndLabels = ParseJson(istream.readBytes())
                 var labelJsonIdToRealId: MutableMap<Int, Int> = mutableMapOf()
+                var countersImported = 0
+                var labelsImported = 0
                 countersAndLabels?.let { cl ->
                     CoroutineScope(Dispatchers.IO).launch {
+                        importingDialogOpen = true
                         cl.labels.forEach { label ->
                             labelJsonIdToRealId[label.id] = labelsViewModel.insertLabelWithIdReturn(
                                 Label(
@@ -126,10 +142,9 @@ fun MainComposable(
                                     color = label.color
                                 )
                             )
+                            ++labelsImported
                         }
-                        println(labelJsonIdToRealId)
                         cl.counters.forEach { counter ->
-                            println(labelJsonIdToRealId[counter.labelId])
                             countersViewModel.insertCounter(
                                 Counter(
                                     id = 0,
@@ -139,6 +154,21 @@ fun MainComposable(
                                     allowNegativeValues = counter.allowNegativeValues,
                                     labelId = labelJsonIdToRealId[counter.labelId]
                                 )
+                            )
+                            ++countersImported
+                        }
+                    }.invokeOnCompletion {
+                        importingDialogOpen = false
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = when ((countersImported > 0) to (labelsImported > 0)) {
+                                    true to true -> context.getString(R.string.import_both, countersImported, labelsImported)
+                                    true to false -> context.getString(R.string.import_counters_only, countersImported)
+                                    false to true -> context.getString(R.string.import_labels_only, labelsImported)
+                                    false to false -> context.getString(R.string.import_nothing)
+                                    else -> ""
+                                },
+                                duration = SnackbarDuration.Short
                             )
                         }
                     }
@@ -310,6 +340,8 @@ fun MainComposable(
             if (labelCreationDialogOpen) LabelCreationDialog(dismiss = {
                 labelCreationDialogOpen = false
             }, labelsViewModel)
+            if (importingDialogOpen) SpinnerDialog(stringResource(R.string.importing))
+            if (exportingDialogOpen) SpinnerDialog(stringResource(R.string.exporting))
 
             if (countersFiltered.isEmpty()) {
                 Column(

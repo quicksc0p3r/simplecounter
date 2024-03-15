@@ -63,6 +63,8 @@
     <string name="import_counters_only">Imported counters: %1$d</string>
     <string name="import_labels_only">Imported labels: %1$d</string>
     <string name="import_both">Imported counters: %1$d, labels: %2$d</string>
+    <string name="importing">Importing…</string>
+    <string name="exporting">Exporting…</string>
     <string name="haptic_feedback">Haptic feedback</string>
     <string name="haptic_feedback_touch">On-screen buttons</string>
     <string name="haptic_feedback_volume">Volume keys</string>
