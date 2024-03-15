@@ -9,7 +9,7 @@ Simple Counter is an app to help you keep track of things.
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/org.quicksc0p3r.simplecounter/)
 
-Or download the latest APK from the [Releases Section](https://github.com/quicksc0p3r/simplecounter/releases/latest).
+Or download the latest APK from the [Releases section](https://github.com/quicksc0p3r/simplecounter/releases/latest).
 
 # Features
 - Material 3 UI implemented with Jetpack Compose
@@ -26,7 +26,7 @@ Or download the latest APK from the [Releases Section](https://github.com/quicks
 - [Google Accompanist](https://github.com/google/accompanist)
 - [Moshi](https://github.com/square/moshi)
 # License
-   Copyright 2023 quicksc0p3r
+   Copyright 2023-2024 quicksc0p3r
 
    Licensed under the Apache License, Version 2.0 (the "License").
    You may obtain a copy of the License at
