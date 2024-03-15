@@ -90,6 +90,7 @@ class CounterPreviewParameterProvider: PreviewParameterProvider<Counter> {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CounterCard(
+    modifier: Modifier = Modifier,
     @PreviewParameter(CounterPreviewParameterProvider::class) counter: Counter,
     snackbarHostState: SnackbarHostState? = null,
     setFullscreenCounter: () -> Unit = {},
@@ -122,7 +123,7 @@ fun CounterCard(
 
     AnimatedVisibility(visible = true) {
         ElevatedCard(
-            modifier = Modifier
+            modifier = modifier
                 .padding(bottom = 6.dp, top = 6.dp, start = 8.dp, end = 8.dp)
                 .height(if (counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.ordinal) 125.dp else 200.dp)
                 .onGloballyPositioned { coordinates ->
