@@ -26,7 +26,7 @@ Or download the latest APK from the [Releases Section](https://github.com/quicks
 - [Google Accompanist](https://github.com/google/accompanist)
 - [Moshi](https://github.com/square/moshi)
 # License
-   Copyright 2023 quicksc0p3r
+   Copyright 2024 quicksc0p3r
 
    Licensed under the Apache License, Version 2.0 (the "License").
    You may obtain a copy of the License at
