@@ -3,7 +3,9 @@ package org.quicksc0p3r.simplecounter.ui.dialogs
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -37,18 +39,22 @@ fun LabelCreationTabletDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
     var labelNameIsNotEmpty by remember { mutableStateOf(false) }
     var labelColor by remember { mutableStateOf(0xFFE15241) }
     val colors1 = listOf(
+        0xFFD63864,
         0xFFE15241,
         0xFFF19D38,
         0xFFF6C343,
         0xFFD0DC59,
-        0xFF97C15C
+        0xFF97C15C,
+        0xFF429588
     )
     val colors2 = listOf(
         0xFF54B9D1,
         0xFF4BA6EE,
         0xFF4350AF,
         0xFF603CB0,
-        0xFF9E9E9E
+        0xFF74574A,
+        0xFF9E9E9E,
+        0xFF667C89
     )
 
     fun checkIfNotEmpty() {
@@ -67,6 +73,7 @@ fun LabelCreationTabletDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 TextField(
+                    modifier = Modifier.width(330.dp),
                     value = labelName,
                     onValueChange = {labelName = it; checkIfNotEmpty()},
                     label = { Text(text = stringResource(R.string.name)) },

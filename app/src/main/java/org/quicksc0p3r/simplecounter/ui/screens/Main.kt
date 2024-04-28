@@ -85,6 +85,7 @@ import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditTabletDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.DeleteDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.LabelCreationDialog
+import org.quicksc0p3r.simplecounter.ui.dialogs.LabelCreationTabletDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.SpinnerDialog
 import org.quicksc0p3r.simplecounter.ui.theme.Typography
 
@@ -374,9 +375,18 @@ fun MainComposable(
                 countersViewModel = countersViewModel,
                 counter = counterForDialog
             )
-            if (labelCreationDialogOpen) LabelCreationDialog(dismiss = {
-                labelCreationDialogOpen = false
-            }, labelsViewModel)
+            if (labelCreationDialogOpen) {
+                if (dpWidth < 600)
+                    LabelCreationDialog(
+                        dismiss = { labelCreationDialogOpen = false },
+                        viewModel = labelsViewModel
+                    )
+                else
+                    LabelCreationTabletDialog(
+                        dismiss = { labelCreationDialogOpen = false },
+                        viewModel = labelsViewModel
+                    )
+            }
             if (importingDialogOpen) SpinnerDialog(stringResource(R.string.importing))
             if (exportingDialogOpen) SpinnerDialog(stringResource(R.string.exporting))
 
