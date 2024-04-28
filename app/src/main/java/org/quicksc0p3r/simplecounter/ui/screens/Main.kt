@@ -82,6 +82,7 @@ import org.quicksc0p3r.simplecounter.json.ParseJson
 import org.quicksc0p3r.simplecounter.ui.components.CounterCard
 import org.quicksc0p3r.simplecounter.ui.components.SearchTopAppBar
 import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditDialog
+import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditTabletDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.DeleteDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.LabelCreationDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.SpinnerDialog
@@ -109,6 +110,8 @@ fun MainComposable(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val contentResolver = context.contentResolver
+    val metrics = context.resources.displayMetrics
+    val dpWidth = metrics.widthPixels / metrics.density
     val createDocumentLauncher = rememberLauncherForActivityResult(CreateDocument("application/json")) { uri ->
         uri?.let {
             exportingDialogOpen = true
@@ -331,16 +334,40 @@ fun MainComposable(
                 }
             }
         ) { padding ->
-            if (counterCreationDialogOpen) CounterCreateEditDialog({
-                counterCreationDialogOpen = false
-            }, countersViewModel, labelsViewModel, false)
-            if (counterEditDialogOpen) CounterCreateEditDialog(
-                dismiss = { counterEditDialogOpen = false },
-                countersViewModel = countersViewModel,
-                labelsViewModel = labelsViewModel,
-                isEdit = true,
-                counter = counterForDialog
-            )
+            if (counterCreationDialogOpen) {
+                if (dpWidth < 600)
+                    CounterCreateEditDialog(
+                        dismiss = { counterCreationDialogOpen = false },
+                        countersViewModel = countersViewModel,
+                        labelsViewModel = labelsViewModel,
+                        isEdit = false
+                    )
+                else
+                    CounterCreateEditTabletDialog(
+                        dismiss = { counterCreationDialogOpen = false },
+                        countersViewModel = countersViewModel,
+                        labelsViewModel = labelsViewModel,
+                        isEdit = false
+                    )
+            }
+            if (counterEditDialogOpen) {
+                if (dpWidth < 600)
+                    CounterCreateEditDialog(
+                        dismiss = { counterEditDialogOpen = false },
+                        countersViewModel = countersViewModel,
+                        labelsViewModel = labelsViewModel,
+                        isEdit = true,
+                        counter = counterForDialog
+                    )
+                else
+                    CounterCreateEditTabletDialog(
+                        dismiss = { counterEditDialogOpen = false },
+                        countersViewModel = countersViewModel,
+                        labelsViewModel = labelsViewModel,
+                        isEdit = true,
+                        counter = counterForDialog
+                    )
+            }
             if (counterDeleteDialogOpen) DeleteDialog(
                 dismiss = { counterDeleteDialogOpen = false },
                 isLabel = false,
