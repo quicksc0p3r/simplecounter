@@ -146,45 +146,7 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
         onDismissRequest = dismiss,
         sheetState = sheetState,
         windowInsets = BottomSheetDefaults.windowInsets,
-        /*title = { Text(text = if (isEdit) stringResource(R.string.edit_counter) else ContextCompat.getString(context, R.string.create_counter)) },
-        confirmButton = {
-            TextButton(
-                enabled = counterNameIsNotEmpty && counterValueIsValid && counterDefaultValueIsValid,
-                onClick = {
-                    if (isEdit)
-                        countersViewModel.updateCounter2(
-                            Counter(
-                            id = counter!!.id,
-                            name = counterName,
-                            defaultValue = if (counterDefaultValue.isNotEmpty()) counterDefaultValue.toInt() else 0,
-                            labelId = if (counterLabel != null) counterLabel!!.id else null,
-                            value = if (counterValue.isNotEmpty()) counterValue.toInt() else 0,
-                            allowNegativeValues = allowNegativeValues
-                        )
-                        )
-                    else
-                        countersViewModel.insertCounter(
-                            Counter(
-                            id = 0,
-                            name = counterName,
-                            defaultValue = if (counterDefaultValue.isNotEmpty()) counterDefaultValue.toInt() else 0,
-                            labelId = if (counterLabel != null) counterLabel!!.id else null,
-                            value = if (counterDefaultValue.isNotEmpty()) counterDefaultValue.toInt() else 0,
-                            allowNegativeValues = allowNegativeValues
-                        )
-                        )
-                    dismiss()
-                },
-                content = { Text(text = if (isEdit) stringResource(R.string.save) else ContextCompat.getString(context, R.string.create)) }
-            )
-        },
-        dismissButton = {
-            TextButton(
-                onClick = dismiss,
-                content = { Text(text = stringResource(R.string.cancel)) }
-            )
-        },
-        */content = {
+        content = {
             val focusManager = LocalFocusManager.current
             val (nameFieldFocus, defaultValueFieldFocus, valueFieldFocus) = remember{ FocusRequester.createRefs()}
             val scrollState = rememberScrollState()
