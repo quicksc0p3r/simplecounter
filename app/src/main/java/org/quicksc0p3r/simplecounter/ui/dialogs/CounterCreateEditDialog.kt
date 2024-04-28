@@ -133,10 +133,6 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
 
     ModalBottomSheet(
         modifier = Modifier
-            /*.width(
-                if (displayMetrics.widthPixels * displayMetrics.density >= 356) 320.dp
-                else (displayMetrics.widthPixels * displayMetrics.density * 0.9).dp
-            )*/
             .heightIn(
                 max =
                 if (displayMetrics.heightPixels * displayMetrics.density <= 480)
