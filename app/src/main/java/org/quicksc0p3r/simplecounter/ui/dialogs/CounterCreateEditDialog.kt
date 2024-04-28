@@ -91,7 +91,7 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
     val labels by labelsViewModel.allLabels.observeAsState(listOf())
     val context = LocalContext.current
     val displayMetrics = context.resources.displayMetrics
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     fun checkIfNotEmpty() {
         counterNameIsNotEmpty = counterName.isNotEmpty()
@@ -161,6 +161,7 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
+                    modifier = Modifier.padding(bottom = 10.dp),
                     text = stringResource(
                         if (isEdit)
                             R.string.edit_counter
