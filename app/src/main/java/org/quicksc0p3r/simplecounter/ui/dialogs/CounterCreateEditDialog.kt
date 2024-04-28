@@ -6,26 +6,37 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -80,6 +91,7 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
     val labels by labelsViewModel.allLabels.observeAsState(listOf())
     val context = LocalContext.current
     val displayMetrics = context.resources.displayMetrics
+    val sheetState = rememberModalBottomSheetState()
 
     fun checkIfNotEmpty() {
         counterNameIsNotEmpty = counterName.isNotEmpty()
@@ -119,12 +131,12 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
         else counterDefaultValueIsValid = false
     }
 
-    AlertDialog(
+    ModalBottomSheet(
         modifier = Modifier
-            .width(
+            /*.width(
                 if (displayMetrics.widthPixels * displayMetrics.density >= 356) 320.dp
                 else (displayMetrics.widthPixels * displayMetrics.density * 0.9).dp
-            )
+            )*/
             .heightIn(
                 max =
                 if (displayMetrics.heightPixels * displayMetrics.density <= 480)
@@ -132,7 +144,9 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                 else Dp.Unspecified
             ),
         onDismissRequest = dismiss,
-        title = { Text(text = if (isEdit) stringResource(R.string.edit_counter) else ContextCompat.getString(context, R.string.create_counter)) },
+        sheetState = sheetState,
+        windowInsets = BottomSheetDefaults.windowInsets,
+        /*title = { Text(text = if (isEdit) stringResource(R.string.edit_counter) else ContextCompat.getString(context, R.string.create_counter)) },
         confirmButton = {
             TextButton(
                 enabled = counterNameIsNotEmpty && counterValueIsValid && counterDefaultValueIsValid,
@@ -170,20 +184,38 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                 content = { Text(text = stringResource(R.string.cancel)) }
             )
         },
-        text = {
+        */content = {
             val focusManager = LocalFocusManager.current
             val (nameFieldFocus, defaultValueFieldFocus, valueFieldFocus) = remember{ FocusRequester.createRefs()}
             val scrollState = rememberScrollState()
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp,
+                        bottom = WindowInsets.navigationBars
+                            .asPaddingValues()
+                            .calculateBottomPadding()
+                    )
+                    .verticalScroll(scrollState)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Text(
+                    text = stringResource(
+                        if (isEdit)
+                            R.string.edit_counter
+                        else
+                            R.string.create_counter
+                    ),
+                    style = MaterialTheme.typography.headlineSmall
+                )
                 TextField(
                     modifier = Modifier
                         .focusRequester(nameFieldFocus)
-                        .focusProperties { next = defaultValueFieldFocus },
+                        .focusProperties { next = defaultValueFieldFocus }
+                        .fillMaxWidth(0.95F),
                     value = counterName,
                     onValueChange = {counterName = it; checkIfNotEmpty()},
                     label = { Text(text = stringResource(R.string.name)) },
@@ -192,47 +224,84 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                         FocusDirection.Next)}),
                     singleLine = true
                 )
-                TextField(
-                    modifier = Modifier
-                        .focusRequester(defaultValueFieldFocus)
-                        .focusProperties {
-                            previous = nameFieldFocus
-                            if (isEdit) next = valueFieldFocus
-                        },
-                    value = counterDefaultValue,
-                    onValueChange = {
-                        counterDefaultValue = it.filterIndexed { i, char ->
-                            char.isDigit() || ((char == '-') && (i == 0))
-                        }
-                        counterDefaultIntValue = counterDefaultValue.toIntOrNull()
-                        checkIfCounterDefaultValueIsValid()
-                    },
-                    label = { Text(text = stringResource(R.string.default_value)) },
-                    placeholder = { Text(text = stringResource(R.string.zero_by_default)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = if (isEdit) ImeAction.Next else ImeAction.Done),
-                    keyboardActions = KeyboardActions(
-                        onNext = { focusManager.moveFocus(FocusDirection.Next) },
-                        onDone = { focusManager.clearFocus() }
-                    ),
-                    singleLine = true
-                )
                 if (isEdit)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(0.95F),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        TextField(
+                            modifier = Modifier
+                                .focusRequester(defaultValueFieldFocus)
+                                .focusProperties {
+                                    previous = nameFieldFocus
+                                    if (isEdit) next = valueFieldFocus
+                                }
+                                .padding(end = 15.dp)
+                                .fillMaxWidth(0.5F),
+                            value = counterDefaultValue,
+                            onValueChange = {
+                                counterDefaultValue = it.filterIndexed { i, char ->
+                                    char.isDigit() || ((char == '-') && (i == 0))
+                                }
+                                counterDefaultIntValue = counterDefaultValue.toIntOrNull()
+                                checkIfCounterDefaultValueIsValid()
+                            },
+                            label = { Text(text = stringResource(R.string.default_value)) },
+                            placeholder = { Text(text = stringResource(R.string.zero_by_default)) },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = if (isEdit) ImeAction.Next else ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onNext = { focusManager.moveFocus(FocusDirection.Next) },
+                                onDone = { focusManager.clearFocus() }
+                            ),
+                            singleLine = true
+                        )
+                        TextField(
+                            modifier = Modifier
+                                .focusRequester(valueFieldFocus)
+                                .focusProperties { previous = defaultValueFieldFocus }
+                                .fillMaxWidth(),
+                            value = counterValue,
+                            onValueChange = {
+                                counterValue = it.filterIndexed { i, char ->
+                                    char.isDigit() || ((char == '-') && (i == 0))
+                                }
+                                counterIntValue = counterValue.toIntOrNull()
+                                checkIfCounterValueIsValid()
+                            },
+                            label = { Text(text = stringResource(R.string.current_value)) },
+                            placeholder = { Text(text = stringResource(R.string.zero_by_default)) },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                            singleLine = true
+                        )
+                    }
+                else
                     TextField(
                         modifier = Modifier
-                            .focusRequester(valueFieldFocus)
-                            .focusProperties { previous = defaultValueFieldFocus },
-                        value = counterValue,
+                            .focusRequester(defaultValueFieldFocus)
+                            .focusProperties {
+                                previous = nameFieldFocus
+                                if (isEdit) next = valueFieldFocus
+                            }
+                            .fillMaxWidth(0.95F),
+                        value = counterDefaultValue,
                         onValueChange = {
-                            counterValue = it.filterIndexed { i, char ->
+                            counterDefaultValue = it.filterIndexed { i, char ->
                                 char.isDigit() || ((char == '-') && (i == 0))
                             }
-                            counterIntValue = counterValue.toIntOrNull()
-                            checkIfCounterValueIsValid()
+                            counterDefaultIntValue = counterDefaultValue.toIntOrNull()
+                            checkIfCounterDefaultValueIsValid()
                         },
-                        label = { Text(text = stringResource(R.string.current_value)) },
+                        label = { Text(text = stringResource(R.string.default_value)) },
                         placeholder = { Text(text = stringResource(R.string.zero_by_default)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        keyboardActions = KeyboardActions(onDone = {focusManager.clearFocus()}),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = if (isEdit) ImeAction.Next else ImeAction.Done),
+                        keyboardActions = KeyboardActions(
+                            onNext = { focusManager.moveFocus(FocusDirection.Next) },
+                            onDone = { focusManager.clearFocus() }
+                        ),
                         singleLine = true
                     )
                 ExposedDropdownMenuBox(
@@ -240,7 +309,7 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                     onExpandedChange = { labelDropdownExpanded = !labelDropdownExpanded }
                 ) {
                     TextField(
-                        modifier = Modifier.menuAnchor(),
+                        modifier = Modifier.menuAnchor().fillMaxWidth(0.95F),
                         readOnly = true,
                         value = if (counterLabel != null) counterLabel!!.name else stringResource(R.string.label_none),
                         onValueChange = {},
@@ -301,20 +370,59 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                         }
                     }
                 }
+                ListItem(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .toggleable(
+                            value = allowNegativeValues,
+                            onValueChange = {allowNegativeValues = it; checkIfCounterValueIsValid(); checkIfCounterDefaultValueIsValid()},
+                            role = Role.Switch
+                        ),
+                    headlineContent = { Text(text = stringResource(R.string.allow_negative)) },
+                    trailingContent = {
+                        Switch(
+                            checked = allowNegativeValues,
+                            onCheckedChange = null
+                        )
+                    }
+                )
                 Row(
-                    modifier = Modifier.toggleable(
-                        value = allowNegativeValues,
-                        onValueChange = {allowNegativeValues = it; checkIfCounterValueIsValid(); checkIfCounterDefaultValueIsValid()},
-                        role = Role.Checkbox
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                ){
-                    Checkbox(
-                        modifier = Modifier.padding(end = 5.dp),
-                        checked = allowNegativeValues,
-                        onCheckedChange = null
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(
+                        onClick = dismiss,
+                        content = { Text(text = stringResource(R.string.cancel)) }
                     )
-                    Text(text = stringResource(R.string.allow_negative))
+                    TextButton(
+                        enabled = counterNameIsNotEmpty && counterValueIsValid && counterDefaultValueIsValid,
+                        onClick = {
+                            if (isEdit)
+                                countersViewModel.updateCounter2(
+                                    Counter(
+                                        id = counter!!.id,
+                                        name = counterName,
+                                        defaultValue = if (counterDefaultValue.isNotEmpty()) counterDefaultValue.toInt() else 0,
+                                        labelId = if (counterLabel != null) counterLabel!!.id else null,
+                                        value = if (counterValue.isNotEmpty()) counterValue.toInt() else 0,
+                                        allowNegativeValues = allowNegativeValues
+                                    )
+                                )
+                            else
+                                countersViewModel.insertCounter(
+                                    Counter(
+                                        id = 0,
+                                        name = counterName,
+                                        defaultValue = if (counterDefaultValue.isNotEmpty()) counterDefaultValue.toInt() else 0,
+                                        labelId = if (counterLabel != null) counterLabel!!.id else null,
+                                        value = if (counterDefaultValue.isNotEmpty()) counterDefaultValue.toInt() else 0,
+                                        allowNegativeValues = allowNegativeValues
+                                    )
+                                )
+                            dismiss()
+                        },
+                        content = { Text(text = if (isEdit) stringResource(R.string.save) else ContextCompat.getString(context, R.string.create)) }
+                    )
                 }
             }
         }
