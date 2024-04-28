@@ -15,6 +15,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
@@ -168,7 +169,7 @@ fun Settings(navController: NavHostController) {
                     ListItem(
                         headlineContent = { Text(stringResource(R.string.compact_counter_cards)) },
                         trailingContent = {
-                            Checkbox(
+                            Switch(
                                 checked = counterCardStyleToken.value == CounterCardStyleSetting.COMPACT.ordinal,
                                 onCheckedChange = null
                             )
@@ -185,7 +186,7 @@ fun Settings(navController: NavHostController) {
                                         manager.storeCounterCardStyleSetting(CounterCardStyleSetting.COMPACT.ordinal)
                                     }
                             },
-                            role = Role.Checkbox
+                            role = Role.Switch
                         )
                     )
                 }
