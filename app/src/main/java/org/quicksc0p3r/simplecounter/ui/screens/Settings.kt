@@ -54,6 +54,7 @@ fun Settings(navController: NavHostController) {
     val manager = SettingsManager(context)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lightDarkToken = manager.lightDarkSettingFlow.collectAsState(initial = LightDarkSetting.LIGHT.ordinal)
+    val oledModeToken = manager.oledModeSettingFlow.collectAsState(initial = false)
     val colorSettingToken = manager.colorSettingFlow.collectAsState(initial = ColorSetting.PURPLE.ordinal)
     val counterCardStyleToken = manager.counterCardStyleSettingFlow.collectAsState(initial = CounterCardStyleSetting.NORMAL.ordinal)
     val hapticFeedbackOnTouchToken = manager.hapticFeedbackOnTouchFlow.collectAsState(initial = false)
@@ -136,6 +137,25 @@ fun Settings(navController: NavHostController) {
                             }
                         )},
                         modifier = Modifier.clickable { lightDarkDialogOpen = true }
+                    )
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.oled_dark_theme)) },
+                        supportingContent = { Text(stringResource(R.string.oled_dark_theme_desc)) },
+                        trailingContent = {
+                            Switch(
+                                checked = oledModeToken.value,
+                                onCheckedChange = null
+                            )
+                        },
+                        modifier = Modifier.toggleable(
+                            value = oledModeToken.value,
+                            onValueChange = {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    manager.storeOledModeSetting(!oledModeToken.value)
+                                }
+                            },
+                            role = Role.Switch
+                        )
                     )
                     ListItem(
                         headlineContent = { Text(stringResource(R.string.color_scheme)) },

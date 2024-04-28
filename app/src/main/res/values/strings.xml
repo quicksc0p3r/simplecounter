@@ -73,4 +73,6 @@
     <string name="haptic_feedback_only_touch">Only for on-screen buttons</string>
     <string name="haptic_feedback_only_volume">Only for volume keys</string>
     <string name="haptic_feedback_warning">Make sure haptic feedback is enabled in your device\'s settings</string>
+    <string name="oled_dark_theme">OLED dark theme</string>
+    <string name="oled_dark_theme_desc">Make the background in dark theme fully black</string>
 </resources>

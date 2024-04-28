@@ -16,6 +16,7 @@ class SettingsManager(context: Context) {
     companion object {
         val colorSetting = intPreferencesKey("colorSetting")
         val lightDarkSetting = intPreferencesKey("lightDarkSetting")
+        val oledModeSetting = booleanPreferencesKey("oledModeSetting")
         val counterCardStyleSetting = intPreferencesKey("counterCardStyleSetting")
         val resetSnackbarTipWasShown = booleanPreferencesKey("resetSnackbarTipWasShown")
         val volumeKeysSnackbarTipWasShown = booleanPreferencesKey("volumeKeysSnackbarTipWasShown")
@@ -29,6 +30,10 @@ class SettingsManager(context: Context) {
 
     suspend fun storeLightDarkSetting(newSetting: Int) {
         settingsStore.edit { it[lightDarkSetting] = newSetting }
+    }
+
+    suspend fun storeOledModeSetting(newSetting: Boolean) {
+        settingsStore.edit { it[oledModeSetting] = newSetting }
     }
 
     suspend fun storeCounterCardStyleSetting(newSetting: Int) {
@@ -62,6 +67,9 @@ class SettingsManager(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             LightDarkSetting.SYSTEM.ordinal
         else LightDarkSetting.LIGHT.ordinal
+    }
+    val oledModeSettingFlow = settingsStore.data.map {
+        it[oledModeSetting] ?: false
     }
     val counterCardStyleSettingFlow = settingsStore.data.map {
         it[counterCardStyleSetting] ?: CounterCardStyleSetting.NORMAL.ordinal

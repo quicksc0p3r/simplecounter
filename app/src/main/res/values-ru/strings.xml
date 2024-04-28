@@ -70,4 +70,6 @@
     <string name="haptic_feedback_only_touch">Только для наэкранных кнопок</string>
     <string name="haptic_feedback_only_volume">Только для клавиш громкости</string>
     <string name="haptic_feedback_warning">Убедитесь, что виброотклик включен в настройках Вашего устройства</string>
+    <string name="oled_dark_theme">Тёмная тема для OLED</string>
+    <string name="oled_dark_theme_desc">Сделать фон в тёмной теме полностью чёрным</string>
 </resources>
