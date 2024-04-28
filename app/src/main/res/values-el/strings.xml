@@ -68,4 +68,6 @@
     <string name="haptic_feedback_only_touch">Μόνο για κουμπιά οθόνης</string>
     <string name="haptic_feedback_only_volume">Μόνο για κουμπιά έντασης</string>
     <string name="haptic_feedback_warning">Βεβαιωθείτε ότι η δόνηση είναι ενεργοποιημένη στις ρυθμίσεις της συσκευή σας</string>
+    <string name="oled_dark_theme">Σκοτεινό θέμα OLED</string>
+    <string name="oled_dark_theme_desc">Κάντε το φόντο στο σκοτεινό θέμα εντελώς μαύρο</string>
 </resources>
