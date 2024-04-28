@@ -1,5 +1,6 @@
 package org.quicksc0p3r.simplecounter.ui.theme
 
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -10,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import org.quicksc0p3r.simplecounter.BuildConfig
 import org.quicksc0p3r.simplecounter.settings.ColorSetting
 import org.quicksc0p3r.simplecounter.settings.LightDarkSetting
 import org.quicksc0p3r.simplecounter.settings.SettingsManager
@@ -19,7 +21,12 @@ fun SimpleCounterTheme(content: @Composable () -> Unit) {
     val context = LocalContext.current
     val manager = SettingsManager(context)
     val lightDarkToken by manager.lightDarkSettingFlow.collectAsState(initial = LightDarkSetting.SYSTEM.ordinal)
-    val colorSettingToken by manager.colorSettingFlow.collectAsState(initial = "")
+    val colorSettingToken by manager.colorSettingFlow.collectAsState(
+        initial = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            ColorSetting.SYSTEM.ordinal
+        else
+            ColorSetting.PURPLE.ordinal
+    )
     val isDarkTheme = ((lightDarkToken == LightDarkSetting.SYSTEM.ordinal) && isSystemInDarkTheme()) || (lightDarkToken == LightDarkSetting.DARK.ordinal)
     val systemUIController = rememberSystemUiController()
     val colorScheme = if (isDarkTheme)
