@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import org.quicksc0p3r.simplecounter.R
 import org.quicksc0p3r.simplecounter.db.Label
 import org.quicksc0p3r.simplecounter.db.LabelsViewModel
@@ -63,6 +64,7 @@ fun LabelCreationTabletDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
 
     AlertDialog(
         onDismissRequest = dismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
         title = { Text(text = stringResource(R.string.create_label)) },
         text = {
             val focusManager = LocalFocusManager.current
