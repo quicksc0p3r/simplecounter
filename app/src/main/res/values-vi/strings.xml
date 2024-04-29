@@ -43,7 +43,7 @@
     <string name="got_it">Hiểu rồi</string>
     <string name="search">Tìm kiếm</string>
     <string name="more_options">Lựa chọn khác</string>
-    <string name="add">Thêm</string> <!--(In the mathematical sense)-->
+    <string name="add">Cộng</string> <!--(In the mathematical sense)-->
     <string name="subtract">Trừ</string>
     <string name="version">Phiên bản %1$s</string>
     <string name="label_drawer">Ngăn kéo nhãn</string>
@@ -73,4 +73,6 @@
     <string name="haptic_feedback_only_touch">Chỉ dành cho các nút trên màn hình</string>
     <string name="haptic_feedback_only_volume">Chỉ dành cho phím âm lượng</string>
     <string name="haptic_feedback_warning">Đảm bảo phản hồi xúc giác được bật trong thiết đặt thiết bị của bạn</string>
+    <string name="oled_dark_theme">Chủ đề tối OLED</string>
+    <string name="oled_dark_theme_desc">Làm cho nền hoàn toàn đen trong giao diện tối</string>
 </resources>
