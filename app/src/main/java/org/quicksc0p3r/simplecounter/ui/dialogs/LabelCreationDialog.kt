@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -47,17 +48,18 @@ fun LabelCreationDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
     var labelName by remember { mutableStateOf("") }
     var labelNameIsNotEmpty by remember { mutableStateOf(false) }
     var labelColor by remember { mutableStateOf(0xFFE15241) }
-    val sheetState = rememberModalBottomSheetState()
-    val colors1 = listOf(
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val context = LocalContext.current
+    val metrics = context.resources.displayMetrics
+    val dpWidth = metrics.widthPixels / metrics.density
+    val colors = listOf(
         0xFFD63864,
         0xFFE15241,
         0xFFF19D38,
         0xFFF6C343,
         0xFFD0DC59,
         0xFF97C15C,
-        0xFF429588
-    )
-    val colors2 = listOf(
+        0xFF429588,
         0xFF54B9D1,
         0xFF4BA6EE,
         0xFF4350AF,
@@ -66,6 +68,7 @@ fun LabelCreationDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
         0xFF9E9E9E,
         0xFF667C89
     )
+    val splitColors = colors.chunked(if (dpWidth >= 380) 7 else 4)
 
     fun checkIfNotEmpty() {
         labelNameIsNotEmpty = labelName.isNotEmpty()
@@ -98,46 +101,26 @@ fun LabelCreationDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
                 singleLine = true
             )
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(1.dp)
-                ) {
-                    colors1.forEach {color ->
-                        FilledIconButton(
-                            onClick = {labelColor = color},
-                            content = {
-                                if (labelColor == color)
-                                    Icon(
-                                        imageVector = Icons.Rounded.Check,
-                                        contentDescription = null
-                                    )
-                            },
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = Color(color),
-                                contentColor = Color(0xFFFFFFFF)
+                splitColors.forEach { colorGroup ->
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(1.dp)
+                    ) {
+                        colorGroup.forEach { color ->
+                            FilledIconButton(
+                                onClick = {labelColor = color},
+                                content = {
+                                    if (labelColor == color)
+                                        Icon(
+                                            imageVector = Icons.Rounded.Check,
+                                            contentDescription = null
+                                        )
+                                },
+                                colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = Color(color),
+                                    contentColor = Color(0xFFFFFFFF)
+                                )
                             )
-                        )
-                    }
-                }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(1.dp)
-                ) {
-                    colors2.forEach {color ->
-                        FilledIconButton(
-                            onClick = {labelColor = color},
-                            content = {
-                                if (labelColor == color)
-                                    Icon(
-                                        imageVector = Icons.Rounded.Check,
-                                        contentDescription = null
-                                    )
-                            },
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = Color(color),
-                                contentColor = Color(0xFFFFFFFF),
-                                disabledContainerColor = Color(0xFF808080),
-                                disabledContentColor = Color(0xFFFFFFFF)
-                            )
-                        )
+                        }
                     }
                 }
                 Row(
