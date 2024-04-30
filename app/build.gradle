@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
     id 'androidx.room'
 }
 
@@ -80,6 +81,7 @@ dependencies {
     implementation 'com.squareup.moshi:moshi:1.15.1'
     implementation 'com.squareup.moshi:moshi-adapters:1.15.1'
     implementation 'com.squareup.moshi:moshi-kotlin:1.15.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
