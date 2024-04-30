@@ -3,6 +3,7 @@
 package org.quicksc0p3r.simplecounter.ui.screens
 
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -213,9 +215,6 @@ fun MainComposable(
             ModalDrawerSheet(
                 modifier = Modifier
                     .width(250.dp + WindowInsets.navigationBars.asPaddingValues().calculateStartPadding(LocalLayoutDirection.current))
-                    .padding(
-                        bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-                    )
             ) {
                 NavigationDrawerItem(
                     icon = { Icon(imageVector = Icons.Rounded.NewLabel, contentDescription = stringResource(
