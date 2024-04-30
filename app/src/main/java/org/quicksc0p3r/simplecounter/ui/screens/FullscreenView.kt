@@ -7,9 +7,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -62,6 +68,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -160,6 +167,7 @@ fun FullscreenView(
                             }
                             true
                         }
+
                         Key.VolumeDown -> {
                             if (allowSubtract && it.type == KeyEventType.KeyDown) {
                                 subtractFromCounter()
@@ -168,6 +176,7 @@ fun FullscreenView(
                             }
                             true
                         }
+
                         else -> false
                     }
                 },
@@ -272,8 +281,13 @@ fun FullscreenView(
             },
             bottomBar = {
                 Row(modifier = Modifier
-                    .padding(bottom = 2.dp)
-                    .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                    .padding(
+                        bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 2.dp,
+                        start = WindowInsets.navigationBars.asPaddingValues().calculateStartPadding(LocalLayoutDirection.current),
+                        end = WindowInsets.navigationBars.asPaddingValues().calculateEndPadding(LocalLayoutDirection.current)
+                    )
+                    .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly)
+                {
                     TooltipBox(
                         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                         tooltip = {

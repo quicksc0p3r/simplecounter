@@ -71,7 +71,8 @@ fun SimpleCounterTheme(content: @Composable () -> Unit) {
             onSurfaceVariant = selectedColorScheme.onSurfaceVariant
         )
     SideEffect {
-        systemUIController.setSystemBarsColor(color = colorScheme.background)
+        systemUIController.setNavigationBarColor(colorScheme.background)
+        systemUIController.setStatusBarColor(Color.Transparent, darkIcons = !isDarkTheme)
     }
     MaterialTheme(
         colorScheme = colorScheme,

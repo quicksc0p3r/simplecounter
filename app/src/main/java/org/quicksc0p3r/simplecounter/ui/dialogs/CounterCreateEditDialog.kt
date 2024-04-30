@@ -151,9 +151,7 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                     .padding(
                         start = 20.dp,
                         end = 20.dp,
-                        bottom = WindowInsets.navigationBars
-                            .asPaddingValues()
-                            .calculateBottomPadding()
+                        bottom = 5.dp
                     )
                     .verticalScroll(scrollState)
                     .fillMaxWidth(),

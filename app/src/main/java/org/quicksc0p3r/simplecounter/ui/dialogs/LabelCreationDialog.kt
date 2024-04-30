@@ -82,7 +82,7 @@ fun LabelCreationDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
             modifier = Modifier.padding(
                 start = 20.dp,
                 end = 20.dp,
-                bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                bottom = 5.dp
             ),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
