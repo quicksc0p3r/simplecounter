@@ -18,5 +18,14 @@
     <string name="system_default">系统默认</string>
     <string name="dark_theme">深色</string>
     <string name="light_dark_theme">主题</string>
-    <string name="light_theme">浅色</string>
+    <string name="light_theme">浅色模式</string>
+    <string name="yellow_scheme">黄色</string>
+    <string name="color_scheme">色彩</string>
+    <string name="red_scheme">红色</string>
+    <string name="orange_scheme">橙色</string>
+    <string name="green_scheme">绿色</string>
+    <string name="blue_scheme">蓝色</string>
+    <string name="purple_scheme">紫色</string>
+    <string name="min_sdk_required">仅 Android %1$s</string>
+    <string name="compact_counter_cards">计数器卡片</string>
 </resources>
