@@ -7,7 +7,7 @@
     <string name="delete">删除</string>
     <string name="create_counter">新建计数器</string>
     <string name="create_label">新建标签</string>
-    <string name="name">标签名</string>
+    <string name="name">名称</string>
     <string name="default_value">默认值</string>
     <string name="current_value">当前值</string>
     <string name="label">标签</string>
