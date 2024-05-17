@@ -28,4 +28,5 @@
     <string name="purple_scheme">紫色</string>
     <string name="min_sdk_required">仅 Android %1$s</string>
     <string name="compact_counter_cards">计数器卡片</string>
+    <string name="license">许可</string>
 </resources>
