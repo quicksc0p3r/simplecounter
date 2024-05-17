@@ -30,11 +30,12 @@
     <string name="compact_counter_cards">紧凑计数器卡片</string>
     <string name="license">许可证</string>
     <string name="translation_help">帮助翻译</string>
-    <string name="credits">Made by quicksc0p3r and |contributors|</string>
-    <string name="contributors">贡献</string>
+    <string name="credits">由 quicksc0p3r 与 |贡献者们| 制作</string>
+    <string name="contributors">贡献者们</string>
     <string name="edit">编辑</string>
     <string name="reset">重置</string>
     <string name="delete_label">删除标签 %1$s?</string>
     <string name="delete_counter">删除计数器 %1$s?</string>
     <string name="delete_label_warning">如果您删除此标签将从所有计数器中删除</string>
+    <string name="version">版本 %1$s</string>
 </resources>
