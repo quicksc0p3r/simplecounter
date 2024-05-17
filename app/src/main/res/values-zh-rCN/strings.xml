@@ -16,4 +16,7 @@
     <string name="settings">设置</string>
     <string name="about">关于</string>
     <string name="system_default">系统默认</string>
+    <string name="dark_theme">深色</string>
+    <string name="light_dark_theme">主题</string>
+    <string name="light_theme">浅色</string>
 </resources>
