@@ -1,4 +1,4 @@
-Features:
+特点：
 
 - 使用 Jetpack Compose 实现 Material 3 UI
 - 为计数器设置默认值，以便快速重置到该值
