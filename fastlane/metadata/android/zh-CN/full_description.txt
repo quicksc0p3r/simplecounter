@@ -1,0 +1,16 @@
+特点：
+
+- 使用 Jetpack Compose 实现 Material 3 UI
+- 为计数器设置默认值，以便快速重置到该值
+- 允许或禁止计数器的负值
+- 使用标签标记计数器，并通过标签过滤计数器
+- 在全屏视图中打开计数器
+- 在全屏模式下使用音量键更改计数值
+- 选择紧凑的计数器卡片选项
+- 使用 JSON 格式备份计数器和标签，并随后恢复它们
+
+使用的库：
+
+- AndroidX（Compose、Lifecycle、Room、DataStore、AppCompat、Navigation）
+- Google Accompanist
+- Moshi
