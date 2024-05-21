@@ -151,7 +151,7 @@ fun About(navController: NavHostController) {
                     Text("GitHub")
                 }
                 TextButton(
-                    onClick = {}
+                    onClick = { uriHandler.openUri("https://toolate.othing.xyz/projects/simplecounter") }
                 ) {
                     Text(stringResource(R.string.translation_help))
                 }

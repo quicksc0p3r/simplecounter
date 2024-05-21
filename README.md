@@ -25,6 +25,8 @@ Or download the latest APK from the [Releases section](https://github.com/quicks
 - [AndroidX](https://github.com/androidx/androidx) (Compose, Lifecycle, Room, DataStore, AppCompat, Navigation)
 - [Google Accompanist](https://github.com/google/accompanist)
 - [Moshi](https://github.com/square/moshi)
+# Help with translation
+You can use [Toolate](https://toolate.othing.xyz/projects/simplecounter) to help with translation.
 # License
    Copyright 2023-2024 quicksc0p3r
 
