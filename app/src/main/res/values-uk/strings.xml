@@ -10,7 +10,7 @@
     <string name="name">Назва</string>
     <string name="default_value">Значення за замовчуванням</string>
     <string name="current_value">Поточне значення</string>
-    <string name="allow_negative">Дозволити від'ємні значення</string>
+    <string name="allow_negative">Дозволити від\'ємні значення</string>
     <string name="label">Мітка</string>
     <string name="label_none">(Немає)</string>
     <string name="label_no_filter">Немає фільтра</string>
