@@ -64,7 +64,7 @@
     <string name="import_both">Імпортні лічильники: %1$d, мітки: %2$d</string>
     <string name="importing">Імпортування…</string>
     <string name="exporting">Експортування…</string>
-    <string name="haptic_feedback">Тактильний зворотний зв'язок</string>
+    <string name="haptic_feedback">Тактильний зворотний зв\'язок</string>
     <string name="haptic_feedback_touch">Наекранні кнопки</string>
     <string name="haptic_feedback_volume">Кнопки гучності</string>
     <string name="off">Вимкнено</string>
