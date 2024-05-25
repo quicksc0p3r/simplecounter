@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
-    id 'androidx.room'
+    //id 'androidx.room'
 }
 
 android {
@@ -21,9 +21,12 @@ android {
             useSupportLibrary true
         }
 
+        // Uncomment this and the plugin declaration when changing database schema
+        /*
         room {
             schemaDirectory '/schemas'
         }
+        */
     }
 
     buildTypes {
