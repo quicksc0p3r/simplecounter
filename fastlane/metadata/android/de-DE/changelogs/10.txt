@@ -1,0 +1,2 @@
+- Griechische Übersetzung von [VasilisKos](https://github.com/VasilisKos) hinzufügen
+- Beitragende aktualisieren
