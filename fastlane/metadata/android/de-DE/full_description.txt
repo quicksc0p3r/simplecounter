@@ -1,0 +1,16 @@
+Merkmale:
+
+- Material 3 UI Implementierung mit Jetpack Compose
+- Setzen Sie einen Standardwert für einen Zähler, um ihn schnell zurücksetzen zu können
+- Erlauben oder verbieten Sie negative Werte für einen Zähler
+- Markieren von Zählern mit Beschriftungen und Filtern von Zählern nach Beschriftung
+- Öffnen von Zählern im Vollbildmodus
+- Verwenden Sie die Lautstärketasten, um den Zählerwert im Vollbildmodus zu ändern
+- Option für kompakte Zählerkarten
+- Erstellen Sie Sicherungskopien Ihrer Zähler und Beschriftungen im JSON-Format und stellen Sie sie später wieder her
+
+Verwendete Bibliotheken:
+
+- AndroidX (Zusammenstellen, Lebenszyklus, Raum, DataStore, AppCompat, Navigation)
+- Google-Begleiter
+- Moshi
