@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace 'org.quicksc0p3r.simplecounter'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "org.quicksc0p3r.simplecounter"
         minSdk 21
-        targetSdk 34
         versionCode 1002003
         versionName "1.2.3"
+        targetSdk 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
