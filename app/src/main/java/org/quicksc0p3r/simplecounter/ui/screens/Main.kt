@@ -79,12 +79,15 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.quicksc0p3r.simplecounter.MAX_COUNTER_VALUE
+import org.quicksc0p3r.simplecounter.MIN_COUNTER_VALUE
 import org.quicksc0p3r.simplecounter.NavRoutes
 import org.quicksc0p3r.simplecounter.R
 import org.quicksc0p3r.simplecounter.db.Counter
 import org.quicksc0p3r.simplecounter.db.CountersViewModel
 import org.quicksc0p3r.simplecounter.db.Label
 import org.quicksc0p3r.simplecounter.db.LabelsViewModel
+import org.quicksc0p3r.simplecounter.evaluateMathOperation
 import org.quicksc0p3r.simplecounter.json.GenerateJson
 import org.quicksc0p3r.simplecounter.json.ParseJson
 import org.quicksc0p3r.simplecounter.ui.components.CounterCard
@@ -94,6 +97,8 @@ import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditTabletDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.DeleteDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.LabelCreationDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.LabelCreationTabletDialog
+import org.quicksc0p3r.simplecounter.ui.dialogs.MathOperationDialog
+import org.quicksc0p3r.simplecounter.ui.dialogs.MathOperationTabletDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.SpinnerDialog
 import org.quicksc0p3r.simplecounter.ui.theme.Typography
 
@@ -112,6 +117,7 @@ fun MainComposable(
     var labelCreationDialogOpen by remember { mutableStateOf(false) }
     var importingDialogOpen by remember { mutableStateOf(false) }
     var exportingDialogOpen by remember { mutableStateOf(false) }
+    var mathOperationDialogOpen by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val counters by countersViewModel.allCounters.observeAsState(listOf())
     val labels by labelsViewModel.allLabels.observeAsState(listOf())
@@ -403,6 +409,39 @@ fun MainComposable(
             }
             if (importingDialogOpen) SpinnerDialog(stringResource(R.string.importing))
             if (exportingDialogOpen) SpinnerDialog(stringResource(R.string.exporting))
+            if (mathOperationDialogOpen)
+                if (dpWidth < 600)
+                    MathOperationDialog(
+                        dismiss = { mathOperationDialogOpen = false },
+                        counterValue = counterForDialog!!.value,
+                        minValue = if (counterForDialog!!.allowNegativeValues) MIN_COUNTER_VALUE else 0,
+                        maxValue = MAX_COUNTER_VALUE
+                    ) { value ->
+                        countersViewModel.updateCounter2(Counter(
+                            counterForDialog!!.id,
+                            counterForDialog!!.name,
+                            value,
+                            counterForDialog!!.defaultValue,
+                            counterForDialog!!.labelId,
+                            counterForDialog!!.allowNegativeValues
+                        ))
+                    }
+                else
+                    MathOperationTabletDialog(
+                        dismiss = { mathOperationDialogOpen = false },
+                        counterValue = counterForDialog!!.value,
+                        minValue = if (counterForDialog!!.allowNegativeValues) MIN_COUNTER_VALUE else 0,
+                        maxValue = MAX_COUNTER_VALUE
+                    ) { value ->
+                        countersViewModel.updateCounter2(Counter(
+                            counterForDialog!!.id,
+                            counterForDialog!!.name,
+                            value,
+                            counterForDialog!!.defaultValue,
+                            counterForDialog!!.labelId,
+                            counterForDialog!!.allowNegativeValues
+                        ))
+                    }
 
             if (countersFiltered.isEmpty()) {
                 Column(
@@ -452,6 +491,10 @@ fun MainComposable(
                             openDeleteDialog = {
                                 counterForDialog = it
                                 counterDeleteDialogOpen = true
+                            },
+                            openMathOperationDialog = {
+                                counterForDialog = it
+                                mathOperationDialogOpen = true
                             },
                             getLabelFlowById = {id ->
                                 labelsViewModel.getLabelById(id)

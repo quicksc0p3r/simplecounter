@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Calculate
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.MoreVert
@@ -96,6 +97,7 @@ fun CounterCard(
     updateCounter: (Int) -> Unit = {},
     openEditDialog: (Counter) -> Unit = {},
     openDeleteDialog: (Counter) -> Unit = {},
+    openMathOperationDialog: (Counter) -> Unit = {},
     getLabelFlowById: (Int) -> Flow<Label> = {flowOf()}
 ) {
     val context = LocalContext.current
@@ -226,6 +228,20 @@ fun CounterCard(
                                         Icon(
                                             imageVector = Icons.Rounded.RestartAlt, contentDescription = stringResource(
                                                 R.string.reset
+                                            )
+                                        )
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(text = stringResource(R.string.math_operation)) },
+                                    onClick = {
+                                        counterMenuExpanded = false
+                                        openMathOperationDialog(counter)
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Calculate, contentDescription = stringResource(
+                                                R.string.math_operation
                                             )
                                         )
                                     }

@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Calculate
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Remove
@@ -89,6 +90,8 @@ import org.quicksc0p3r.simplecounter.db.LabelsViewModel
 import org.quicksc0p3r.simplecounter.settings.SettingsManager
 import org.quicksc0p3r.simplecounter.ui.dialogs.CounterCreateEditDialog
 import org.quicksc0p3r.simplecounter.ui.dialogs.DeleteDialog
+import org.quicksc0p3r.simplecounter.ui.dialogs.MathOperationDialog
+import org.quicksc0p3r.simplecounter.ui.dialogs.MathOperationTabletDialog
 import org.quicksc0p3r.simplecounter.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -112,6 +115,7 @@ fun FullscreenView(
         val referenceSize = (dpWidth - 30) / 2
         var editDialogOpen by remember { mutableStateOf(false) }
         var deleteDialogOpen by remember { mutableStateOf(false) }
+        var mathOperationDialogOpen by remember { mutableStateOf(false) }
         val focusRequester = remember { FocusRequester() }
         val snackbarHostState = remember { SnackbarHostState() }
         val manager = SettingsManager(context)
@@ -258,6 +262,21 @@ fun FullscreenView(
                             IconButton(onClick = { resetCounter() }) {
                                 Icon(imageVector = Icons.Rounded.RestartAlt, contentDescription = stringResource(
                                     R.string.reset
+                                ))
+                            }
+                        }
+                        TooltipBox(
+                            positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                            tooltip = {
+                                PlainTooltip {
+                                    Text(stringResource(R.string.math_operation))
+                                }
+                            },
+                            state = rememberTooltipState()
+                        ) {
+                            IconButton(onClick = { mathOperationDialogOpen = true }) {
+                                Icon(imageVector = Icons.Rounded.Calculate, contentDescription = stringResource(
+                                    R.string.math_operation
                                 ))
                             }
                         }
@@ -463,6 +482,39 @@ fun FullscreenView(
                     navController.popBackStack(NavRoutes.Main.route, false)
                 }
             )
+            if (mathOperationDialogOpen)
+                if (dpWidth < 600)
+                    MathOperationDialog(
+                        dismiss = { mathOperationDialogOpen = false },
+                        counterValue = counter.value,
+                        minValue = if (counter.allowNegativeValues) MIN_COUNTER_VALUE else 0,
+                        maxValue = MAX_COUNTER_VALUE
+                    ) { value ->
+                        countersViewModel.updateCounter2(Counter(
+                            counter.id,
+                            counter.name,
+                            value,
+                            counter.defaultValue,
+                            counter.labelId,
+                            counter.allowNegativeValues
+                        ))
+                    }
+                else
+                    MathOperationTabletDialog(
+                        dismiss = { mathOperationDialogOpen = false },
+                        counterValue = counter.value,
+                        minValue = if (counter.allowNegativeValues) MIN_COUNTER_VALUE else 0,
+                        maxValue = MAX_COUNTER_VALUE
+                    ) { value ->
+                        countersViewModel.updateCounter2(Counter(
+                            counter.id,
+                            counter.name,
+                            value,
+                            counter.defaultValue,
+                            counter.labelId,
+                            counter.allowNegativeValues
+                        ))
+                    }
         }
     }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="create">Создать</string>
     <string name="save">Сохранить</string>
+    <string name="done">Готово</string>
     <string name="cancel">Отмена</string>
     <string name="delete">Удалить</string>
     <string name="create_counter">Создать счётчик</string>
@@ -72,4 +73,7 @@
     <string name="haptic_feedback_warning">Убедитесь, что виброотклик включен в настройках Вашего устройства</string>
     <string name="oled_dark_theme">Тёмная тема для OLED</string>
     <string name="oled_dark_theme_desc">Сделать фон в тёмной теме полностью чёрным</string>
+    <string name="math_operation">Математическая операция</string>
+    <string name="math_operation_hint">Оператор (+ - * / ^), затем число</string>
+    <string name="math_operation_round_notice">Нецелые результаты будут округлены</string>
 </resources>

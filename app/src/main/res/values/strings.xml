@@ -4,6 +4,7 @@
     <string name="app_name" translatable="false">Simple Counter</string>
     <string name="create">Create</string>
     <string name="save">Save</string>
+    <string name="done">Done</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="create_counter">Create counter</string>
@@ -75,4 +76,7 @@
     <string name="haptic_feedback_warning">Make sure haptic feedback is enabled in your device\'s settings</string>
     <string name="oled_dark_theme">OLED dark theme</string>
     <string name="oled_dark_theme_desc">Make the background in dark theme fully black</string>
+    <string name="math_operation">Math operation</string>
+    <string name="math_operation_hint">Operator (+ - * / ^), then number</string>
+    <string name="math_operation_round_notice">Non-integer results will be rounded</string>
 </resources>
