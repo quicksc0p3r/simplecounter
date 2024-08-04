@@ -38,7 +38,7 @@ fun MathOperationTabletDialog(dismiss: () -> Unit, counterValue: Int, minValue: 
     AlertDialog(
         onDismissRequest = dismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false),
-        title = { Text(text = stringResource(R.string.create_label)) },
+        title = { Text(text = stringResource(R.string.math_operation)) },
         text = {
             val focusManager = LocalFocusManager.current
 
