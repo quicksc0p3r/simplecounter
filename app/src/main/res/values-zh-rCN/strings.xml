@@ -73,4 +73,8 @@
     <string name="haptic_feedback_warning">确保在设备设置中启用了触觉反馈功能</string>
     <string name="oled_dark_theme">OLED 黑暗模式</string>
     <string name="oled_dark_theme_desc">在黑暗模式中将背景设置为黑色\"</string>
+    <string name="math_operation">数学运算</string>
+    <string name="math_operation_round_notice">将四舍五入非整数结果</string>
+    <string name="done">完成</string>
+    <string name="math_operation_hint">运算符 (+ - * / ^)，后接数字</string>
 </resources>
