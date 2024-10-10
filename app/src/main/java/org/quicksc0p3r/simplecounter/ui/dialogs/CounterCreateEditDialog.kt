@@ -43,6 +43,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -72,8 +73,8 @@ import org.quicksc0p3r.simplecounter.db.LabelsViewModel
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersViewModel, labelsViewModel: LabelsViewModel, isEdit: Boolean, counter: Counter? = null) {
-    var counterName by remember{ mutableStateOf(if (isEdit) counter!!.name else "") }
-    var counterDefaultValue by remember{ mutableStateOf(if (isEdit) counter!!.defaultValue.toString() else "") }
+    var counterName by rememberSaveable { mutableStateOf(if (isEdit) counter!!.name else "") }
+    var counterDefaultValue by rememberSaveable { mutableStateOf(if (isEdit) counter!!.defaultValue.toString() else "") }
     var counterDefaultIntValue = counterDefaultValue.toIntOrNull()
     var counterValue by remember{ mutableStateOf(if (isEdit) counter!!.value.toString() else "") }
     var counterIntValue = counterValue.toIntOrNull()
@@ -83,11 +84,11 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                 labelsViewModel.getLabelById(counter.labelId!!).collectAsState(initial = null).value
             else null
         } else null
-    var counterNameIsNotEmpty by remember{ mutableStateOf(isEdit) }
+    var counterNameIsNotEmpty by rememberSaveable { mutableStateOf(isEdit) }
     var counterValueIsValid by remember{ mutableStateOf(true) }
-    var counterDefaultValueIsValid by remember{ mutableStateOf(true) }
-    var allowNegativeValues by remember{ mutableStateOf(if (isEdit) counter!!.allowNegativeValues else false) }
-    var labelDropdownExpanded by remember{ mutableStateOf(false) }
+    var counterDefaultValueIsValid by rememberSaveable { mutableStateOf(true) }
+    var allowNegativeValues by rememberSaveable { mutableStateOf(if (isEdit) counter!!.allowNegativeValues else false) }
+    var labelDropdownExpanded by rememberSaveable { mutableStateOf(false) }
     val labels by labelsViewModel.allLabels.observeAsState(listOf())
     val context = LocalContext.current
     val displayMetrics = context.resources.displayMetrics
@@ -266,7 +267,9 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                     onExpandedChange = { labelDropdownExpanded = !labelDropdownExpanded }
                 ) {
                     TextField(
-                        modifier = Modifier.menuAnchor().fillMaxWidth(0.95F),
+                        modifier = Modifier
+                            .menuAnchor()
+                            .fillMaxWidth(0.95F),
                         readOnly = true,
                         value = if (counterLabel != null) counterLabel!!.name else stringResource(R.string.label_none),
                         onValueChange = {},
@@ -332,7 +335,10 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
                         .clip(RoundedCornerShape(10.dp))
                         .toggleable(
                             value = allowNegativeValues,
-                            onValueChange = {allowNegativeValues = it; checkIfCounterValueIsValid(); checkIfCounterDefaultValueIsValid()},
+                            onValueChange = {
+                                allowNegativeValues =
+                                    it; checkIfCounterValueIsValid(); checkIfCounterDefaultValueIsValid()
+                            },
                             role = Role.Switch
                         ),
                     headlineContent = { Text(text = stringResource(R.string.allow_negative)) },

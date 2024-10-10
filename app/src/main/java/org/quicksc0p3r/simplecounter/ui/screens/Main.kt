@@ -112,7 +112,7 @@ fun MainComposable(
 ) {
     val context = LocalContext.current
     var counterForDialog: Counter? by remember { mutableStateOf(null) }
-    var counterCreationDialogOpen by remember { mutableStateOf(false) }
+    var counterCreationDialogOpen by rememberSaveable { mutableStateOf(false) }
     var counterEditDialogOpen by remember { mutableStateOf(false) }
     var counterDeleteDialogOpen by remember { mutableStateOf(false) }
     var labelCreationDialogOpen by remember { mutableStateOf(false) }
