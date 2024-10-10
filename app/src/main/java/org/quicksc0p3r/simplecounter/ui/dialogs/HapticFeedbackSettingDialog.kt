@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,8 +29,8 @@ fun HapticFeedbackSettingDialog(
     currentTouchSetting: Boolean,
     currentVolumeSetting: Boolean
 ) {
-    var hapticFeedbackOnTouch by remember { mutableStateOf(currentTouchSetting) }
-    var hapticFeedbackOnVolume by remember { mutableStateOf(currentVolumeSetting) }
+    var hapticFeedbackOnTouch by rememberSaveable { mutableStateOf(currentTouchSetting) }
+    var hapticFeedbackOnVolume by rememberSaveable { mutableStateOf(currentVolumeSetting) }
 
     AlertDialog(
         onDismissRequest = dismiss,

@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -59,9 +59,9 @@ fun Settings(navController: NavHostController) {
     val counterCardStyleToken = manager.counterCardStyleSettingFlow.collectAsState(initial = CounterCardStyleSetting.NORMAL.ordinal)
     val hapticFeedbackOnTouchToken = manager.hapticFeedbackOnTouchFlow.collectAsState(initial = false)
     val hapticFeedbackOnVolumeToken = manager.hapticFeedbackOnVolumeFlow.collectAsState(initial = false)
-    var lightDarkDialogOpen by remember { mutableStateOf(false) }
-    var colorSettingDialogOpen by remember { mutableStateOf(false) }
-    var hapticFeedbackDialogOpen by remember { mutableStateOf(false) }
+    var lightDarkDialogOpen by rememberSaveable { mutableStateOf(false) }
+    var colorSettingDialogOpen by rememberSaveable { mutableStateOf(false) }
+    var hapticFeedbackDialogOpen by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = { TopAppBar(
