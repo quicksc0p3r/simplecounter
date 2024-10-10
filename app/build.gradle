@@ -13,8 +13,8 @@ android {
         applicationId "org.quicksc0p3r.simplecounter"
         minSdk 21
         targetSdk 35
-        versionCode 1002004
-        versionName "1.2.4"
+        versionCode 1003000
+        versionName "1.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
