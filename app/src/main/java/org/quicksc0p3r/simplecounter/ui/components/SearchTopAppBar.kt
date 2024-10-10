@@ -33,7 +33,7 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -59,9 +59,9 @@ fun SearchTopAppBar(
     exportData: () -> Unit,
     importData: () -> Unit
 ) {
-    var topBarMenuExpanded by remember { mutableStateOf(false) }
-    var topBarIsInSearchMode by remember { mutableStateOf(false) }
-    var searchQuery by remember { mutableStateOf("") }
+    var topBarMenuExpanded by rememberSaveable { mutableStateOf(false) }
+    var topBarIsInSearchMode by rememberSaveable { mutableStateOf(false) }
+    var searchQuery by rememberSaveable { mutableStateOf("") }
 
     Crossfade(targetState = topBarIsInSearchMode, label = "") {topBarSearchActive ->
         if (!topBarSearchActive) {
