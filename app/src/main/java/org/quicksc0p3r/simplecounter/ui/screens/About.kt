@@ -30,7 +30,7 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,7 +66,7 @@ fun About(navController: NavHostController) {
         pop()
         append(splitString[2])
     }
-    var contributorsDialogOpen by remember { mutableStateOf(false) }
+    var contributorsDialogOpen by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     val displayMetrics = context.resources.displayMetrics
     val uriHandler = LocalUriHandler.current
