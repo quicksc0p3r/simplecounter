@@ -115,7 +115,7 @@ fun MainComposable(
     var counterCreationDialogOpen by rememberSaveable { mutableStateOf(false) }
     var counterEditDialogOpen by remember { mutableStateOf(false) }
     var counterDeleteDialogOpen by remember { mutableStateOf(false) }
-    var labelCreationDialogOpen by remember { mutableStateOf(false) }
+    var labelCreationDialogOpen by rememberSaveable { mutableStateOf(false) }
     var importingDialogOpen by remember { mutableStateOf(false) }
     var exportingDialogOpen by remember { mutableStateOf(false) }
     var mathOperationDialogOpen by remember { mutableStateOf(false) }

@@ -28,7 +28,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,9 +45,9 @@ import org.quicksc0p3r.simplecounter.db.LabelsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabelCreationDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
-    var labelName by remember { mutableStateOf("") }
-    var labelNameIsNotEmpty by remember { mutableStateOf(false) }
-    var labelColor by remember { mutableStateOf(0xFFE15241) }
+    var labelName by rememberSaveable { mutableStateOf("") }
+    var labelNameIsNotEmpty by rememberSaveable { mutableStateOf(false) }
+    var labelColor by rememberSaveable { mutableStateOf(0xFFE15241) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val context = LocalContext.current
     val metrics = context.resources.displayMetrics
@@ -92,7 +92,9 @@ fun LabelCreationDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
         ) {
             Text(text = stringResource(R.string.create_label), style = MaterialTheme.typography.headlineSmall)
             TextField(
-                modifier = Modifier.fillMaxWidth(0.95F).padding(vertical = 10.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.95F)
+                    .padding(vertical = 10.dp),
                 value = labelName,
                 onValueChange = {labelName = it; checkIfNotEmpty()},
                 label = { Text(text = stringResource(R.string.name)) },
@@ -124,7 +126,9 @@ fun LabelCreationDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
                     }
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 15.dp),
                     horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(

@@ -20,7 +20,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,9 +36,9 @@ import org.quicksc0p3r.simplecounter.db.LabelsViewModel
 
 @Composable
 fun LabelCreationTabletDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
-    var labelName by remember { mutableStateOf("") }
-    var labelNameIsNotEmpty by remember { mutableStateOf(false) }
-    var labelColor by remember { mutableStateOf(0xFFE15241) }
+    var labelName by rememberSaveable { mutableStateOf("") }
+    var labelNameIsNotEmpty by rememberSaveable { mutableStateOf(false) }
+    var labelColor by rememberSaveable { mutableStateOf(0xFFE15241) }
     val colors1 = listOf(
         0xFFD63864,
         0xFFE15241,
