@@ -2,6 +2,7 @@ package org.quicksc0p3r.simplecounter.db
 
 import android.app.Application
 import android.content.Context
+import androidx.compose.runtime.saveable.Saver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,35 @@ data class Counter(
     val labelId: Int? = null,
     val allowNegativeValues: Boolean = false
 )
+
+val CounterSaver = Saver<Counter?, List<String>>(
+    save = {
+        if (it != null)
+            listOf(
+                it.id.toString(),
+                it.name,
+                it.value.toString(),
+                it.defaultValue.toString(),
+                it.labelId.toString(),
+                it.allowNegativeValues.toString()
+            )
+        else listOf()
+    },
+    restore = {
+        if (it.isNotEmpty())
+            Counter(
+                it[0].toInt(),
+                it[1],
+                it[2].toInt(),
+                it[3].toInt(),
+                it[4].toIntOrNull(),
+                it[5].toBoolean()
+            )
+        else null
+    }
+)
+
+fun <T> counterSaver(): Saver<T, Any> = (CounterSaver as Saver<T, Any>)
 
 @Dao
 interface CounterDao {

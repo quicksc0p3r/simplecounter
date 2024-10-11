@@ -85,9 +85,12 @@ import org.quicksc0p3r.simplecounter.MIN_COUNTER_VALUE
 import org.quicksc0p3r.simplecounter.NavRoutes
 import org.quicksc0p3r.simplecounter.R
 import org.quicksc0p3r.simplecounter.db.Counter
+import org.quicksc0p3r.simplecounter.db.CounterSaver
 import org.quicksc0p3r.simplecounter.db.CountersViewModel
 import org.quicksc0p3r.simplecounter.db.Label
 import org.quicksc0p3r.simplecounter.db.LabelsViewModel
+import org.quicksc0p3r.simplecounter.db.counterSaver
+import org.quicksc0p3r.simplecounter.db.labelSaver
 import org.quicksc0p3r.simplecounter.evaluateMathOperation
 import org.quicksc0p3r.simplecounter.json.GenerateJson
 import org.quicksc0p3r.simplecounter.json.ParseJson
@@ -111,14 +114,14 @@ fun MainComposable(
     setFullscreenCounter: (Int) -> Unit
 ) {
     val context = LocalContext.current
-    var counterForDialog: Counter? by remember { mutableStateOf(null) }
+    var counterForDialog: Counter? by rememberSaveable(stateSaver = counterSaver()) { mutableStateOf(null) }
     var counterCreationDialogOpen by rememberSaveable { mutableStateOf(false) }
-    var counterEditDialogOpen by remember { mutableStateOf(false) }
-    var counterDeleteDialogOpen by remember { mutableStateOf(false) }
+    var counterEditDialogOpen by rememberSaveable { mutableStateOf(false) }
+    var counterDeleteDialogOpen by rememberSaveable { mutableStateOf(false) }
     var labelCreationDialogOpen by rememberSaveable { mutableStateOf(false) }
     var importingDialogOpen by remember { mutableStateOf(false) }
     var exportingDialogOpen by remember { mutableStateOf(false) }
-    var mathOperationDialogOpen by remember { mutableStateOf(false) }
+    var mathOperationDialogOpen by rememberSaveable { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val counters by countersViewModel.allCounters.observeAsState(listOf())
     val labels by labelsViewModel.allLabels.observeAsState(listOf())
@@ -205,8 +208,7 @@ fun MainComposable(
             }
         }
     }
-    val nullableLabel: Label? = null
-    var currentLabelFilter by remember { mutableStateOf(nullableLabel) }
+    var currentLabelFilter: Label? by rememberSaveable(stateSaver = labelSaver()) { mutableStateOf(null) }
     var searchQuery by rememberSaveable { mutableStateOf("") }
     val countersFiltered = counters.filter {
         (if (currentLabelFilter != null)
@@ -255,7 +257,7 @@ fun MainComposable(
                         )
                     }
                     items(labels, key = { it.id }) {label ->
-                        var deleteDialogOpen by remember { mutableStateOf(false) }
+                        var deleteDialogOpen by rememberSaveable { mutableStateOf(false) }
 
                         Row(horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically) {

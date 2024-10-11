@@ -27,6 +27,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -47,7 +48,7 @@ import org.quicksc0p3r.simplecounter.db.LabelsViewModel
 fun LabelCreationDialog(dismiss: () -> Unit, viewModel: LabelsViewModel) {
     var labelName by rememberSaveable { mutableStateOf("") }
     var labelNameIsNotEmpty by rememberSaveable { mutableStateOf(false) }
-    var labelColor by rememberSaveable { mutableStateOf(0xFFE15241) }
+    var labelColor by rememberSaveable { mutableLongStateOf(0xFFE15241) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val context = LocalContext.current
     val metrics = context.resources.displayMetrics

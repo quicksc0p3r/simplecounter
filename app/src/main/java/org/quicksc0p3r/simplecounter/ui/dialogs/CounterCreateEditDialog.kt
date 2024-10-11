@@ -76,7 +76,7 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
     var counterName by rememberSaveable { mutableStateOf(if (isEdit) counter!!.name else "") }
     var counterDefaultValue by rememberSaveable { mutableStateOf(if (isEdit) counter!!.defaultValue.toString() else "") }
     var counterDefaultIntValue = counterDefaultValue.toIntOrNull()
-    var counterValue by remember{ mutableStateOf(if (isEdit) counter!!.value.toString() else "") }
+    var counterValue by rememberSaveable { mutableStateOf(if (isEdit) counter!!.value.toString() else "") }
     var counterIntValue = counterValue.toIntOrNull()
     var counterLabel =
         if (isEdit) {
@@ -85,7 +85,7 @@ fun CounterCreateEditDialog(dismiss: () -> Unit, countersViewModel: CountersView
             else null
         } else null
     var counterNameIsNotEmpty by rememberSaveable { mutableStateOf(isEdit) }
-    var counterValueIsValid by remember{ mutableStateOf(true) }
+    var counterValueIsValid by rememberSaveable { mutableStateOf(true) }
     var counterDefaultValueIsValid by rememberSaveable { mutableStateOf(true) }
     var allowNegativeValues by rememberSaveable { mutableStateOf(if (isEdit) counter!!.allowNegativeValues else false) }
     var labelDropdownExpanded by rememberSaveable { mutableStateOf(false) }

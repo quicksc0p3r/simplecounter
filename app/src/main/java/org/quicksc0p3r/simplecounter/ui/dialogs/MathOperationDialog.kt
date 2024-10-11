@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,8 +35,8 @@ import org.quicksc0p3r.simplecounter.evaluateMathOperation
 @Composable
 fun MathOperationDialog(dismiss: () -> Unit, counterValue: Int, minValue: Int, maxValue: Int, updateCounter: (Int) -> Unit) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var operationString by remember { mutableStateOf("") }
-    var mathOperationValue: Int? by remember { mutableStateOf(null) }
+    var operationString by rememberSaveable { mutableStateOf("") }
+    var mathOperationValue: Int? by rememberSaveable { mutableStateOf(null) }
 
     ModalBottomSheet(
         onDismissRequest = dismiss,

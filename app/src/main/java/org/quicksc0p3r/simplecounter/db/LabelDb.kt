@@ -2,6 +2,7 @@ package org.quicksc0p3r.simplecounter.db
 
 import android.app.Application
 import android.content.Context
+import androidx.compose.runtime.saveable.Saver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +26,29 @@ data class Label(
     val name: String = "",
     val color: Long = 0xFFE15241
 )
+
+val LabelSaver = Saver<Label?, List<String>>(
+    save = {
+        if (it != null)
+            listOf(
+                it.id.toString(),
+                it.name,
+                it.color.toString()
+            )
+        else listOf()
+    },
+    restore = {
+        if (it.isNotEmpty())
+            Label(
+                it[0].toInt(),
+                it[1],
+                it[2].toLong()
+            )
+        else null
+    }
+)
+
+fun <T> labelSaver(): Saver<T, Any> = (LabelSaver as Saver<T, Any>)
 
 @Dao
 interface LabelDao {
