@@ -11,7 +11,7 @@
     <string name="label_no_filter">Kein Filter</string>
     <string name="settings">Einstellungen</string>
     <string name="about">Über</string>
-    <string name="light_dark_theme">Farbshema</string>
+    <string name="light_dark_theme">Farbschema</string>
     <string name="system_default">Systemvorgabe</string>
     <string name="light_theme">Hell</string>
     <string name="dark_theme">Dunkel</string>
@@ -73,4 +73,8 @@
     <string name="no_counters_label">Keine Zähler mit ausgewähltem Label</string>
     <string name="credits">Erstellt von quicksc0p3r und |contributors|</string>
     <string name="delete_label_warning">Wenn Sie dieses Etikett löschen, wird es auch aus allen Zählern entfernt</string>
+    <string name="done">Fertig</string>
+    <string name="math_operation">Mathematische Berechnung</string>
+    <string name="math_operation_round_notice">Nicht-ganzzahlige Ergebnisse werden gerundet</string>
+    <string name="math_operation_hint">Operator (+ - * / ^), danach eine Zahl</string>
 </resources>
