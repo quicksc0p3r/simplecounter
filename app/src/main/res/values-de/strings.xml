@@ -4,7 +4,7 @@
     <string name="save">Speichern</string>
     <string name="cancel">Abbrechen</string>
     <string name="name">Name</string>
-    <string name="default_value">Standartwert</string>
+    <string name="default_value">Standardwert</string>
     <string name="current_value">Aktueller Wert</string>
     <string name="label">Label</string>
     <string name="label_none">(Keine)</string>
