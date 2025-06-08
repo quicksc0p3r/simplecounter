@@ -1,6 +1,5 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation" >
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="create">Створити</string>
     <string name="save">Зберегти</string>
     <string name="cancel">Скасувати</string>
@@ -26,7 +25,7 @@
     <string name="yellow_scheme">Жовта</string>
     <string name="green_scheme">Зелена</string>
     <string name="blue_scheme">Синій</string>
-    <string name="purple_scheme">Фіолетовий.</string>
+    <string name="purple_scheme">Фіолетовий</string>
     <string name="min_sdk_required">Тільки Android %1$s+</string>
     <string name="compact_counter_cards">Компактні картки лічильників</string>
     <string name="license">Ліцензця</string>
@@ -42,7 +41,8 @@
     <string name="got_it">Зрозуміло</string>
     <string name="search">Пошук</string>
     <string name="more_options">Більше опцій</string>
-    <string name="add">Додати</string> <!--(In the mathematical sense)-->
+    <string name="add">Додати</string>
+    <!--(In the mathematical sense)-->
     <string name="subtract">Відняти</string>
     <string name="version">Версія %1$s</string>
     <string name="label_drawer">Скринька міток</string>
@@ -74,4 +74,8 @@
     <string name="haptic_feedback_warning">Переконайтеся, що тактильний зворотний зв\'язок увімкнено в налаштуваннях вашого пристрою</string>
     <string name="oled_dark_theme">Темна OLED тема</string>
     <string name="oled_dark_theme_desc">Зробити фон у темній темі повністю чорним</string>
+    <string name="math_operation_hint">Оператор (+ - * / ^), тоді число</string>
+    <string name="done">Готово</string>
+    <string name="math_operation">Математичні операції</string>
+    <string name="math_operation_round_notice">Не цілі результати будуть заокруглені</string>
 </resources>
