@@ -1,0 +1,16 @@
+Características:
+
+- Interfaz de usuario Material 3 implementada con Jetpack Compose
+- Establecer un valor predeterminado para un contador y restablecerlo rápidamente a dicho valor
+- Permitir o prohibir valores negativos en un contador
+- Etiquetar contadores y filtrarlos por etiqueta
+- Abrir contadores en pantalla completa
+- Utilizar las teclas de volumen para cambiar el valor del contador en modo de pantalla completa
+- Opción para tarjetas de contador compactas
+- Realizar copias de seguridad de tus contadores y etiquetas en formato JSON y restaurarlas más tarde
+
+Bibliotecas utilizadas:
+
+- AndroidX (Compose, Lifecycle, Room, DataStore, AppCompat, Navigation)
+- Google Accompanist
+- Moshi

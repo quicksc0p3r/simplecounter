@@ -1,0 +1,16 @@
+Özellikler:
+
+- Jetpack Compose ile uygulanmış Materyal 3 Arayüzü 
+- Sayacın hızlıca o değere sıfırlanabilmesi için varsayılan bir değer ekleyebilme
+- Bir sayaç için negatif değerlere izin verme/vermeme
+- Etiketli sayaçları ve filtreli sayaçları etiketlerle işaretleme
+- Sayaçları tam ekran görünümünde açma
+- Tam ekran modundayken sayaç değerini ses tuşlarını kullanarak değiştirebilme
+- Kompakt sayaç kartları seçeneği
+- Sayaçlarınızın ve etiketlerinizin JSON formatında yedeğini alıp sonra geri getirebilme
+
+Kullanılan kütüphaneler:
+
+- AndroidX (Compose, Lifecycle, Room, DataStore, AppCompat, Navigation)
+- Google Accompanist
+- Moshi

@@ -1,0 +1,2 @@
+- Añadir la traducción al griego de [VasilisKos](https://github.com/VasilisKos)
+- Actualizar la lista de colaboradores
